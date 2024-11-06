@@ -1,0 +1,3 @@
+pg_dump -U postgres -W -h localhost rrhhaei > rrhhaei.sql
+
+psql -h 10.72.106.212 -U postgres -f rrhhaei.sql rrhhaei
