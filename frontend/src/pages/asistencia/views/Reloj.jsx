@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import mostrarHora from "../../../utilities/mostrarHora";
+import mostrarHora from "../helpers/mostrarHora";
 
 // Componente para mostrar un reloj en pantalla
 export default function Reloj() {

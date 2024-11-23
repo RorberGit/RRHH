@@ -10,6 +10,8 @@ import FAVICON from "./assets/favicon.ico";
 import Asistencia from "./pages/asistencia";
 
 function App() {
+  
+
   //Configurar parametros del documento
   useEffect(() => {
     document.title = "Fuerza de Trabajo";

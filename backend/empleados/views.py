@@ -4,9 +4,9 @@ from rest_framework import filters, generics, permissions
 from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.views import APIView
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, NotAcceptable
 
-from empleados.api.share_serializers import ListFullEmpleadosSerializers
+from empleados.api.share_serializers import ListFullEmpleadosSerializers, ResumenEmpleadoSerializers
 
 from .models import Empleados
 from .serializers import EmpleadosSerializers
@@ -63,6 +63,46 @@ class RetrieveEmpleados(APIView):
             serializer = ListFullEmpleadosSerializers(empleados, many=True)
 
         # Retornar los resultados
+        return Response(serializer.data)
+
+
+class GetOneEmpleado(APIView):
+    """Generar un APIView que debuelva una un empleado
+    """
+
+    def get(self, request):
+
+        #! Parametros de consulta
+        nip = request.query_params.get('nip')
+        proyecto = request.query_params.get('proyecto')
+        is_active = request.query_params.get('is_active')
+
+        #! Inicializar filtro de busqueda
+        filters = Q()
+
+        #! Aplicar filtros si se proporcionan
+        if nip:
+            filters &= Q(nip=nip)
+        if proyecto:
+            filters &= Q(proyecto__nombre=proyecto)
+        if is_active:
+            filters &= Q(is_active=is_active)
+
+        if not filters:
+            raise NotAcceptable("Filtros no especificados")
+
+        #! Obtener empleados según filtro establecido
+        try:
+            empleados = Empleados.objects.get(filters)
+
+            #! Serializar los resultados
+            serializer = ResumenEmpleadoSerializers(empleados)
+
+        except Empleados.DoesNotExist:
+            raise NotFound(
+                "No se econtro empleado con el criterio especificado")
+
+        #! Retornar los resultados
         return Response(serializer.data)
 
 

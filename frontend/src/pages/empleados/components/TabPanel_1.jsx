@@ -1,12 +1,17 @@
 import { TabPanel } from "@mui/lab";
-import { AutoCompletar, CampoTexto, Fecha } from "../../../components/mui";
 import { Box, Divider } from "@mui/material";
-import PropTypes from "prop-types";
 import { field_color_piel, field_sexo } from "../resources/campos";
 import { RUTAS_API } from "../../../constants";
 import useGetData from "../../../hooks/use-GetData";
+import { useFormContext } from "../../../context/use-FormContext";
+import {
+  renderACompletar,
+  renderCampoTexto,
+  renderFecha,
+} from "../../../components/mui/helpers/formHelpers";
 
-export default function TabPanel_1({ comun }) {
+export default function TabPanel_1() {
+  const control = useFormContext();
   const nivel_escolar = useGetData(RUTAS_API.OTHER.NIVEL_ESCOLAR);
   const especialidad = useGetData(RUTAS_API.organization.ESPECIALIDAD);
   const procedencia = useGetData(RUTAS_API.OTHER.PROCEDENCIA);
@@ -19,51 +24,21 @@ export default function TabPanel_1({ comun }) {
         m={2}
         gridTemplateColumns="repeat(12, 1fr)"
       >
-        <CampoTexto
-          name="nombre"
-          label="Nombre"
-          span="4"
-          {...comun}
-        />
-        <CampoTexto
-          name="apellido_paterno"
-          label="Apellido paterno"
-          span="4"
-          {...comun}
-        />
-        <CampoTexto
-          name="apellido_materno"
-          label="Apellido materno"
-          span="4"
-          {...comun}
-        />
-        <CampoTexto
-          type="number"
-          name="ci"
-          label="Número de Identidad"
-          span="3"
-          {...comun}
-        />
-        <AutoCompletar
-          name="sexo"
-          options={field_sexo}
-          label="Sexo"
-          span="3"
-          {...comun}
-        />
-        <AutoCompletar
-          name="color_piel"
-          options={field_color_piel}
-          label="Color de la Piel"
-          span="3"
-          {...comun}
-        />
-        <CampoTexto
-          name="telefono"
-          label="Teléfono"
-          span="3"
-          {...comun}
-        />
+        {renderCampoTexto(control, "nombre", "Nombre", "4")}
+        {renderCampoTexto(control, "apellido_paterno", "Apellido paterno", "4")}
+        {renderCampoTexto(control, "apellido_materno", "Apellido materno", "4")}
+        {renderCampoTexto(control, "ci", "Número de Identidad", "3", "number")}
+
+        {renderACompletar(control, "sexo", field_sexo, "Sexo", "3")}
+        {renderACompletar(
+          control,
+          "color_piel",
+          field_color_piel,
+          "Color de la piel",
+          "3"
+        )}
+
+        {renderCampoTexto(control, "telefono", "Teléfono", "3")}
       </Box>
 
       <Divider />
@@ -75,51 +50,38 @@ export default function TabPanel_1({ comun }) {
         gridTemplateColumns="repeat(12, 1fr)"
       >
         {/*//! Nivel espcolar */}
-        {!nivel_escolar.loading && (
-          <AutoCompletar
-            name="ne"
-            label="Nivel Escolar"
-            options={nivel_escolar.data}
-            span="6"
-            {...comun}
-          />
-        )}
+        {!nivel_escolar.loading &&
+          renderACompletar(
+            control,
+            "ne",
+            nivel_escolar.data,
+            "Nivel Escolar",
+            "6"
+          )}
 
         {/* //! Especialidad */}
-        {!especialidad.loading && (
-          <AutoCompletar
-            name="especialidad"
-            label="Especialidad"
-            options={especialidad.data}
-            span="6"
-            {...comun}
-          />
-        )}
+        {!especialidad.loading &&
+          renderACompletar(
+            control,
+            "especialidad",
+            especialidad.data,
+            "Especialidad",
+            "6"
+          )}
 
         {/* //! Año de graduado */}
-        <Fecha
-          name="ag"
-          label="Año de graduado"
-          span="6"
-          views={["year"]}
-          {...comun}
-        />
+        {renderFecha(control, "ag", "Año de graduado", "6", ["year"])}
 
         {/* //! Procedencias */}
-        {!procedencia.loading && (
-          <AutoCompletar
-            name="procedencia"
-            label="Procedencia"
-            options={procedencia.data}
-            span="6"
-            {...comun}
-          />
-        )}
+        {!procedencia.loading &&
+          renderACompletar(
+            control,
+            "procedencia",
+            procedencia.data,
+            "Procedencia",
+            "6"
+          )}
       </Box>
     </TabPanel>
   );
 }
-
-TabPanel_1.propTypes = {
-  comun: PropTypes.object,
-};

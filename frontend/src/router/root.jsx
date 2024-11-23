@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Head from "../components/Head";
-import DrawerMenu from "../components/DrawerMenu";
+import DrawerMenu from "../components/drawer/DrawerMenu";
 import { Box, Container, Toolbar } from "@mui/material";
 import { useEffect } from "react";
 

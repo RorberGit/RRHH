@@ -1,12 +1,13 @@
 import axios from "axios";
-import { SERVER_API } from "./../constants/rutas.api";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default axios.create({
-  baseURL: SERVER_API,
+  baseURL: apiUrl,
 });
 
 export const axiosToken = axios.create({
-  baseURL: SERVER_API,
+  baseURL: apiUrl,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

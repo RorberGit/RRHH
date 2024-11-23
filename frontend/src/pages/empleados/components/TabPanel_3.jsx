@@ -6,6 +6,7 @@ import { RUTAS_API } from "../../../constants";
 import CuadroChequeo from "../../../components/mui/CuadroChequeo";
 import Fecha from "../../../components/mui/Fecha";
 import useGetData from "../../../hooks/use-GetData";
+import { field_mano_obra } from "../resources/campos";
 
 export default function TabPanel_3({ comun }) {
   const proyecto = useGetData(RUTAS_API.organization.PROYECTO);
@@ -25,14 +26,13 @@ export default function TabPanel_3({ comun }) {
         m={2}
         gridTemplateColumns="repeat(12, 1fr)"
       >
-        <Box
-          gridColumn="span 3"
-          textAlign="center"
-        >
+        <Box gridColumn="span 3" textAlign="center">
           {/*//! Nuevo ingreso */}
-          <CuadroChequeo
-            name="nuevo_ingreso"
-            label="Nuevo ingreso"
+          <AutoCompletar
+            name="mano_obra"
+            options={field_mano_obra}
+            label="Mano de obra"
+            span="3"
             {...comun}
           />
         </Box>
@@ -88,16 +88,9 @@ export default function TabPanel_3({ comun }) {
             {...comun}
           />
         )}
-        <Box
-          gridColumn="span 3"
-          textAlign="center"
-        >
+        <Box gridColumn="span 3" textAlign="center">
           {/* //! Cobra por tarjeta */}
-          <CuadroChequeo
-            name="cpt"
-            label="Cobra por tarjeta"
-            {...comun}
-          />
+          <CuadroChequeo name="cpt" label="Cobra por tarjeta" {...comun} />
         </Box>
 
         {/* //! Turno */}

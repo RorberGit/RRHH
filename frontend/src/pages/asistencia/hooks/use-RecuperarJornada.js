@@ -1,8 +1,8 @@
 import moment from "moment";
 import { useMemo } from "react";
-import diasSemana from "../views/diasSemana";
+import diasSemana from "../constants/diasSemana";
 import useGetData from "../../../hooks/use-GetData";
-import { RUTAS_API } from "../../../constants";
+import { ASISTENCIA } from "../../../constants";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -15,15 +15,20 @@ export default function useRecuperarJornada() {
 
   //! Recuperar Jornada dado el dia semana actual
   const { data, loading } = useGetData(
-    `${RUTAS_API.asistencia.JORNADA}/${ActualDiaSemana}`
+    `${ASISTENCIA.JORNADA}/${ActualDiaSemana}`
   );
 
   //! Si existen datos formatear la hora entrada y la salida, poner en el estado
   useEffect(() => {
     if (!loading && data) {
       const { hora_entrada, hora_salida } = data;
-      setHoraEntrada(moment(hora_entrada, "HH:mm:ss").format("h:mm A"));
-      setHoraSalida(moment(hora_salida, "HH:mm:ss").format("h:mm A"));
+      //! Poner stados de entrada o salida si existen sino null
+      setHoraEntrada(
+        hora_entrada && moment(hora_entrada, "HH:mm:ss").format("h:mm A")
+      );
+      setHoraSalida(
+        hora_salida && moment(hora_salida, "HH:mm:ss").format("h:mm A")
+      );
     }
   }, [data, loading]);
 

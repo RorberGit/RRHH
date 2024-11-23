@@ -7,10 +7,17 @@ import "moment/locale/es";
 import PropTypes from "prop-types";
 import { useController } from "react-hook-form";
 
-export default function Fecha({ name, control, label, span, views }) {
-  const { field, formState } = useController({ name, control });
-
-  const { errors } = formState;
+export default function Fecha({
+  name,
+  control,
+  label,
+  span,
+  views = ["year", "month", "day"],
+}) {
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name, control });
 
   return (
     <Box sx={{ gridColumn: `span ${span}`, marginTop: "-8px" }}>
@@ -26,12 +33,12 @@ export default function Fecha({ name, control, label, span, views }) {
           {...field}
           label={label}
           value={field.value}
-          views={views ? views : ["year", "month", "day"]}
+          views={views}
           onChange={(e) => field.onChange(e)}
           slotProps={{
             textField: {
               size: "small",
-              helperText: errors[name] ? errors[name].message : "",
+              helperText: error?.message,
             },
           }}
         />
@@ -41,11 +48,9 @@ export default function Fecha({ name, control, label, span, views }) {
 }
 
 Fecha.propTypes = {
-  name: PropTypes.string,
-  control: PropTypes.object,
-  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  control: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
   views: PropTypes.array,
-  field: PropTypes.string,
-  errors: PropTypes.string,
   span: PropTypes.string,
 };

@@ -1,41 +1,43 @@
-import { TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import { useController } from "react-hook-form";
 
 export default function CampoTexto({
-  name,
   control,
+  name,
   label,
-  type,
   span,
-  multiline,
-  rows,
+  type = "text",
+  multiline = false,
+  rows = 1,
 }) {
-  const { field, formState } = useController({ name, control });
-
-  const { errors } = formState;
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name, control });
 
   return (
-    <TextField
-      {...field}
-      size="small"
-      variant="outlined"
-      label={label}
-      type={type || "text"}
-      sx={span ? { gridColumn: `span ${span}` } : null}
-      multiline={!!multiline}
-      rows={rows ? rows : 1}
-      error={!!errors[name]}
-      helperText={errors[name] ? errors[name].message : ""}
-    />
+    <Box sx={span ? { gridColumn: `span ${span}` } : null}>
+      <TextField
+        {...field}
+        size="small"
+        variant="outlined"
+        label={label}
+        type={type}
+        multiline={multiline}
+        rows={rows}
+        error={!!error}
+        helperText={error?.message}
+      />
+    </Box>
   );
 }
 
 CampoTexto.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  control: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
   type: PropTypes.string,
-  control: PropTypes.object,
   span: PropTypes.string,
   multiline: PropTypes.bool,
   rows: PropTypes.number,

@@ -1,8 +1,8 @@
 import moment from "moment";
 import PropTypes from "prop-types";
-import calcularDiferenciaTiempo from "../views/calcularDiferenciaTiempo";
+import calcularDiferenciaTiempo from "../helpers/calcularDiferenciaTiempo";
 import { StyledTableCell, StyledTableRow } from "./FilasCeldas";
-import calcularHorasTrabajadas from "../views/calcularHorasTrabajadas";
+import calcularHorasTrabajadas from "../helpers/calcularHorasTrabajadas";
 
 export default function RegistroAsistencia({ registro, HoraInicio, HoraFin }) {
   //! Renderizar los datos
@@ -11,9 +11,10 @@ export default function RegistroAsistencia({ registro, HoraInicio, HoraFin }) {
   const NombreCompleto = `${nombre} ${apellido_paterno} ${apellido_materno}`;
 
   //! Convertir HoraEntrada y HoraSalida si existe en formato de 12 horas
-  const HoraEntrada = moment(fecha_y_hora_entrada).format("h.mm A");
+  const HoraEntrada = moment(fecha_y_hora_entrada).utc().format("h:mm A");
+
   const HoraSalida = fecha_y_hora_salida
-    ? moment(fecha_y_hora_salida).format("h:mm A")
+    ? moment(fecha_y_hora_salida).utc().format("h:mm A")
     : "Trabajando";
 
   //! Si existe la hora de comezar a laborar se calcula la diferencia con la Hora de Entrada
@@ -45,8 +46,8 @@ export default function RegistroAsistencia({ registro, HoraInicio, HoraFin }) {
 
   //! Si Salida no es "Trabajando" y existe la hora de salida calcular la diferencia con la hora de salida
   const salidaTemprana =
-    HoraSalida !== "Trabajando" && HoraInicio
-      ? moment(HoraSalida, "h:mm A").isBefore(moment(HoraInicio, "h:mm A"))
+    HoraSalida !== "Trabajando" && HoraFin
+      ? moment(HoraSalida, "h:mm A").isBefore(moment(HoraFin, "h:mm A"))
       : null;
 
   return (

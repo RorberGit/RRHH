@@ -7,10 +7,16 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import RegistroAsistencia from "../components/RegistroAsistencia";
-import generarUUID from "../../../utilities/generarUUID";
+import generarUUID from "../../../helpers/generarUUID";
 import { StyledTableCell, StyledTableRow } from "../components/FilasCeldas";
 
-export default function Registro({ data, loading, horaEntrada, horaSalida }) {
+export default function Registro({
+  data,
+  error,
+  loading,
+  horaEntrada,
+  horaSalida,
+}) {
   if (loading) {
     return (
       <div>
@@ -19,7 +25,11 @@ export default function Registro({ data, loading, horaEntrada, horaSalida }) {
     );
   }
 
-  return (
+  return error ? (
+    <span>
+      <b>{error.detail}</b>
+    </span>
+  ) : (
     <div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -53,6 +63,7 @@ export default function Registro({ data, loading, horaEntrada, horaSalida }) {
 
 Registro.propTypes = {
   data: PropTypes.array,
+  error: PropTypes.object,
   loading: PropTypes.bool,
   horaEntrada: PropTypes.string,
   horaSalida: PropTypes.string,

@@ -11,6 +11,7 @@ from vestimenta.api.models import Calzado, Camisa, Pantalon
 
 from .api.fields_chocices import (
     COLOR_PIEL_CHOICE,
+    MOD_MOI_CHOICE,
     SEXO_CHOISE,
     ENTRADA_SALIDA_CHOICE,
     ESTADO_VIENDA_CHOICE,
@@ -74,14 +75,16 @@ class Empleados(CommonFields):
         null=True,
         default=None,
     )
-    no = models.CharField("No", max_length=20, null=True, blank=True, default=None)
+    no = models.CharField("No", max_length=20, null=True,
+                          blank=True, default=None)
     calle = models.CharField(
         "Calle", max_length=250, null=True, blank=True, default=None
     )
     entre = models.CharField(
         "Entre", max_length=250, null=True, blank=True, default=None
     )
-    y = models.CharField("Y", max_length=250, null=True, blank=True, default=None)
+    y = models.CharField("Y", max_length=250, null=True,
+                         blank=True, default=None)
     edif = models.CharField(
         "Edificio", max_length=20, null=True, blank=True, default=None
     )
@@ -107,8 +110,12 @@ class Empleados(CommonFields):
         blank=True,
         default=None,
     )
-    nuevo_ingreso = models.BooleanField(
-        "Nuevo ingreso", blank=True, null=True, default=True
+    mano_obra = models.CharField(
+        verbose_name="Mano de Obra Directa o Indirecta",
+        max_length=9,
+        choices=MOD_MOI_CHOICE,
+        null=True,
+        default="MOD",
     )
     proyecto = models.ForeignKey(
         "organizacion.Proyectos",
@@ -243,7 +250,8 @@ class Empleados(CommonFields):
     po = models.CharField(
         "Parada omnibus", max_length=150, blank=True, null=True, default=None
     )
-    ruta = models.CharField("Ruta", max_length=150, blank=True, null=True, default=None)
+    ruta = models.CharField("Ruta", max_length=150,
+                            blank=True, null=True, default=None)
     pantry = models.CharField(
         "Pantry", max_length=150, blank=True, null=True, default=None
     )

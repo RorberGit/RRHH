@@ -4,7 +4,7 @@ export default function useStorageToken() {
   const action = useMemo(
     () => ({
       list: JSON.parse(localStorage.getItem("token")),
-      id: JSON.parse(localStorage.getItem("token"))?.session,
+      id: JSON.parse(localStorage.getItem("token"))?.id,
       accessToken: JSON.parse(localStorage.getItem("token"))?.access_token,
       refreshToken: JSON.parse(localStorage.getItem("token"))?.refresh_token,
       setToken: (json = {}) =>

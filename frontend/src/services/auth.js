@@ -4,9 +4,7 @@ import { RUTAS_API } from "../constants";
 export const Login = async (credenciales) => {
   return await axios
     .post(RUTAS_API.USERS.LOGIN, credenciales, { withCredentials: true })
-    .then((response) => {
-      return response.data;
-    })
+    .then((response) => response.data)
     .catch((error) => {
       console.error("error :> ", error);
 

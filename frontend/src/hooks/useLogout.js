@@ -22,11 +22,10 @@ export const useLogout = () => {
           headers: { "Content-Type": "application/json" },
         }
       )
-      .then((response) => {
+      .then(() => {
         Token.removeToken();
 
         usuario.reset();
-        console.info("response", response);
       })
       .catch((error) => {
         console.error("error:>", error);

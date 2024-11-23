@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from empleados.serializers import ListEmpleadosSerializers
+from empleados.api.share_serializers import ListEmpleadosSerializers
+
 
 from .models import HoraEntradaSalida, RegistroEntradaSalida
 

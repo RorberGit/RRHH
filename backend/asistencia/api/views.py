@@ -159,24 +159,24 @@ class ListRegistroEntradaSalida(APIView):
             filtros &= Q(empleado__nip=nip)
 
         if proyecto:
-            filtros &= Q(empleado__proyecto=proyecto)
+            filtros &= Q(empleado__proyecto__nombre=proyecto)
 
         if fecha_entrada:
             try:
-                fecha_entrada_date = datetime.strptime(fecha_entrada, "%Y-%m-%d")
+                fecha_entrada_date = datetime.strptime(
+                    fecha_entrada, "%Y-%m-%d")
                 filtros &= Q(fecha_y_hora_entrada__date=fecha_entrada_date)
             except ValueError:
-                raise ParseError("La fecha de entrada debe tener el formato YYYY-MM-DD")
+                raise ParseError(
+                    "La fecha de entrada debe tener el formato YYYY-MM-DD")
 
         #! Si hay filtros, realizar la busqueda sino devolver todos en orden desendente
-        if filtros:
-            result = RegistroEntradaSalida.objects.filter(filtros)
-        else:
-            result = RegistroEntradaSalida.objects.all().order_by("-updated_at")
+        result = RegistroEntradaSalida.objects.filter(
+            filtros).order_by("-updated_at")
 
         #! Si no hay resultados de la busqueda
         if not result.exists():
-            raise NotFound("Registros no encontrados")
+            raise NotFound("Sin registros localizados")
 
         #! Serializar los resultados, con many=True para retornar una lista de objetos relacionados
         serializer = ListRegistroEntradaSalidaSerializer(result, many=True)

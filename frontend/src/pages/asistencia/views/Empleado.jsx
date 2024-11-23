@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import person from "../../../assets/person.jpg";
+import persona from "../../../assets/person.jpg";
 import PropTypes from "prop-types";
 
 export default function Empleado({ employee }) {
@@ -11,6 +11,7 @@ export default function Empleado({ employee }) {
     </Typography>
   );
 
+  //!Si no existe un empleado 
   if (!employee) return <div>Sin resultados</div>;
 
   return (
@@ -19,7 +20,7 @@ export default function Empleado({ employee }) {
         alt="empleado"
         width={250}
         height={300}
-        placeholder={<img src={person} />}
+        placeholder={<img alt="persona" src={persona} />}
         style={{ marginRight: 20 }}
         src={employee?.foto}
       ></LazyLoadImage>
@@ -27,11 +28,11 @@ export default function Empleado({ employee }) {
       <Box>
         {renderTypography("NIP", employee?.nip)}
         {renderTypography("Número identidad", employee?.ci)}
-        {renderTypography("Empleado", employee?.fullname)}
+        {renderTypography("Empleado", employee?.nombre_completo)}
         {renderTypography("Área / Departamento", employee?.area)}
         {renderTypography("Cargo", employee?.cargo)}
         {renderTypography("Proyecto", employee?.proyecto)}
-        {renderTypography("Jefe inmediato", employee?.jefe_inmediato)}
+        {renderTypography("Mano de Obra", employee?.mano_obra)}
         {renderTypography("Estado", employee?.estado)}
       </Box>
     </Box>

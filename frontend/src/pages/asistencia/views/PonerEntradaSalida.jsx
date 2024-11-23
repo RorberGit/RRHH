@@ -1,20 +1,29 @@
 import { TextField } from "@mui/material";
 import debounce from "just-debounce-it";
 import { useEffect, useCallback } from "react";
-import axios from "../../../api/axios";
+import { axiosToken } from "../../../api/axios";
 import useGetData from "../../../hooks/use-GetData";
 import Swal from "sweetalert2";
 import { toast, Toaster } from "sonner";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
+import { EMPLEADO } from "../../../constants";
 
-export default function PonerEntradaSalida({ setEmployee, refresData }) {
+export default function PonerEntradaSalida({
+  setEmployee,
+  refresData,
+  proyecto,
+}) {
   const [nip, setNip] = useState("");
   const [search, setSearch] = useState(null);
 
   //! Custom Hooks para las solicitudes al API
-  const { data } = useGetData(search);
+  const { data, error } = useGetData(search);
+
+  useEffect(() => {
+    error && toast.error(error?.detail);
+  }, [error]);
 
   //! Poblar el setEmployee con los datos del empleado
   useEffect(() => {
@@ -24,13 +33,11 @@ export default function PonerEntradaSalida({ setEmployee, refresData }) {
             foto: data?.foto,
             nip: data.nip,
             ci: data.ci,
-            fullnombre: `${data.nombre} ${data.apellido_paterno} ${data.apellido_materno}`,
+            nombre_completo: `${data.nombre} ${data.apellido_paterno} ${data.apellido_materno}`,
             area: data.areadpt?.nombre,
             cargo: data?.cargo?.nombre,
             proyecto: data?.proyecto?.nombre,
-            jefe_inmediato: data?.areadpt?.jefe
-              ? `${data.areadpt.jefe.nombre} ${data.areadpt.jefe.apellido_paterno} ${data.areadpt.jefe.apellido_materno}`
-              : "",
+            mano_obra: data?.mano_obra,
             estado: data.estado,
             is_active: data.is_active,
           }
@@ -38,14 +45,19 @@ export default function PonerEntradaSalida({ setEmployee, refresData }) {
     );
   }, [data, setEmployee]);
 
-  //! Esperar 3 segundos para buscar el empleado
+  /*  - Esperar 5 segundos para buscar el empleado 
+      - Si existe un nip almacena la url sino devuelve nulo
+      - Se creala url API con los filtros nip y proyecto*/
   const debouncedNip = useMemo(
     () =>
       debounce(
-        (nip) => setSearch(nip ? `/employee/retrieve/?one=1&nip=${nip}` : null),
-        300
+        (nip) =>
+          setSearch(
+            nip ? `${EMPLEADO.getOne}?nip=${nip}&proyecto=${proyecto}` : null
+          ),
+        500
       ),
-    []
+    [proyecto]
   );
 
   //! Catura los cambios en el cuadro de texto NIP
@@ -81,7 +93,7 @@ export default function PonerEntradaSalida({ setEmployee, refresData }) {
 
     if (result.isConfirmed) {
       try {
-        await (estado === "SALIDA" ? axios.post : axios.put)(
+        await (estado === "SALIDA" ? axiosToken.post : axiosToken.put)(
           url,
           estado === "SALIDA" ? { nip } : undefined
         );
@@ -121,4 +133,5 @@ export default function PonerEntradaSalida({ setEmployee, refresData }) {
 PonerEntradaSalida.propTypes = {
   setEmployee: PropTypes.func,
   refresData: PropTypes.func,
+  proyecto: PropTypes.string,
 };

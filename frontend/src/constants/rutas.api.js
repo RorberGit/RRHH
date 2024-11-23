@@ -1,17 +1,9 @@
-export const SERVER_API = "http://localhost:8000/";
-
 export const RUTAS_API = {
   USERS: {
     LOGIN: "users/login/",
     LOGOUT: "users/logout/",
     LISTING: "users/listing/",
     RETRIEVE: "users/retrieve/",
-  },
-  EMPLOYEE: {
-    LISTING: "employee/listing/",
-    CREATE: "employee/create/",
-    RETRIEVE: "employee/retrieve/",
-    MAX: "employee/max/",
   },
   OTHER: {
     ANTIGUEDAD: "other/antique/",
@@ -37,7 +29,18 @@ export const RUTAS_API = {
     CAMISA: "attire/shirt/",
     CALZADO: "attire/footwear/",
   },
-  asistencia: {
-    JORNADA: "asistencia/timeworkforday",
-  },
+};
+
+export const EMPLEADO = {
+  LISTING: "employee/listing/",
+  CREATE: "employee/create/",
+  getOne: "employee/getone",
+  getFull: "",
+  RETRIEVE: "employee/retrieve",
+  MAX: "employee/max/",
+};
+
+export const ASISTENCIA = {
+  JORNADA: "asistencia/timeworkforday",
+  ENTRADA_SALIDA: "asistencia/registroentrada",
 };

@@ -6,12 +6,11 @@ import {
   TextField,
   Typography,
   styled,
-  Grid,
+  Grid2 as Grid,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { validar } from "./models/validar";
-import { initialValues } from "./models/initialValues";
 import {
   TabPanel_1,
   TabPanel_2,
@@ -26,9 +25,11 @@ import { crearRegistro } from "./utilities/crearRegistro";
 import { MuiFileInput } from "mui-file-input";
 import { AttachFile } from "@mui/icons-material";
 import useGetData from "../../hooks/use-GetData";
-import { RUTAS_API } from "../../constants";
+import { EMPLEADO } from "../../constants";
 import { useBase64 } from "../../hooks/useBase64";
 import axios from "../../api/axios";
+import { initEmpleado } from "./models/init_Empleado";
+import { FormProvider } from "../../context/formContext";
 
 const Img = styled("img")({
   width: "100%",
@@ -42,27 +43,29 @@ export default function Formulario() {
 
   const [file, setFile] = useState(null);
 
+  //! Configurarción del react-hook-form
   const { register, handleSubmit, control, formState, setValue } = useForm({
-    defaultValues: initialValues,
+    defaultValues: initEmpleado,
     resolver: validar(),
   });
 
+  //! Atributos comunes para todos los componentes
   const comun = { control: control, formState: formState };
 
   //! Octener el último numero de empleado
-  const nipData = useGetData(RUTAS_API.EMPLOYEE.MAX);
+  const nipData = useGetData(EMPLEADO.MAX);
 
   const base64 = useBase64();
 
-  /* //!funsion submit del formulario */
+  //! Funsion submit del formulario
   const onSubmit = async (data) => {
-    console.log("first :>", data);
+    console.log("data :>", data);
 
     const row = crearRegistro(data);
 
-    const create = await axios.post(RUTAS_API.EMPLOYEE.CREATE, row);
+    console.info("renderizado:>", row);
 
-    console.info(row);
+    const create = await axios.post(EMPLEADO.CREATE, row);
 
     console.log("create :>> ", create);
   };
@@ -98,16 +101,8 @@ export default function Formulario() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid
-          container
-          spacing={2}
-        >
-          <Grid
-            item
-            xs={12}
-            md={4}
-            lg={3}
-          >
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, md: 4, lg: 3 }}>
             <Paper
               variant="outlined"
               sx={{
@@ -133,19 +128,10 @@ export default function Formulario() {
               />
             </Paper>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={8}
-            lg={9}
-          >
+          <Grid size={{ xs: 12, md: 8, lg: 9 }}>
             <Paper sx={{ p: 2 }}>
               {/* //!Campo para el numero de identificacion personal */}
-              <Stack
-                spacing={2}
-                direction="row"
-                sx={{ ml: 5 }}
-              >
+              <Stack spacing={2} direction="row" sx={{ ml: 5 }}>
                 <Typography variant="subtitle1">
                   Número de Identificación Personal
                 </Typography>
@@ -153,44 +139,42 @@ export default function Formulario() {
                   {...register("nip")}
                   variant="standard"
                   type="text"
-                  InputProps={{
-                    readOnly: true,
+                  slotProps={{
+                    input: {
+                      readOnly: true,
+                    },
                   }}
                   sx={{ maxWidth: "60px", textAlign: "center", fontSize: 40 }}
                 />
               </Stack>
 
-              {/* //!Contenedor global de los Tab*/}
-              <TabContenedor>
-                {/* //! Datos personales */}
-                <TabPanel_1 comun={comun} />
+              <FormProvider value={control}>
+                {/* //!Contenedor global de los Tab*/}
+                <TabContenedor>
+                  {/* //! Datos personales */}
+                  <TabPanel_1 comun={comun} />
 
-                {/* //! Dirección particular */}
-                <TabPanel_2
-                  comun={comun}
-                  setValue={setValue}
-                />
+                  {/* //! Dirección particular */}
+                  <TabPanel_2 comun={comun} setValue={setValue} />
 
-                {/* //! Datos laborales */}
-                <TabPanel_3 comun={comun} />
+                  {/* //! Datos laborales */}
+                  <TabPanel_3 comun={comun} />
 
-                {/*//! Afiliaciones */}
-                <TabPanel_4 comun={comun} />
+                  {/*//! Afiliaciones */}
+                  <TabPanel_4 comun={comun} />
 
-                {/* //! Vestimenta de trabajo */}
-                <TabPanel_5 comun={comun} />
+                  {/* //! Vestimenta de trabajo */}
+                  <TabPanel_5 comun={comun} />
 
-                {/* //! Vivienda */}
-                <TabPanel_6 comun={comun} />
+                  {/* //! Vivienda */}
+                  <TabPanel_6 comun={comun} />
 
-                {/* //! Alojamiento */}
-                <TabPanel_7 comun={comun} />
-              </TabContenedor>
+                  {/* //! Alojamiento */}
+                  <TabPanel_7 comun={comun} />
+                </TabContenedor>
+              </FormProvider>
               <Box sx={{ textAlign: "right", pr: 4 }}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                >
+                <Button type="submit" variant="contained">
                   Aceptar
                 </Button>
               </Box>

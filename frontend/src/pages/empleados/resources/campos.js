@@ -14,3 +14,8 @@ export const field_estado_vivienda = [
   { id: "R", nombre: "Regular" },
   { id: "M", nombre: "Mala" },
 ];
+
+export const field_mano_obra = [
+  { id: "MOD", nombre: "Directa" },
+  { id: "MOI", nombre: "Indirecta" },
+];

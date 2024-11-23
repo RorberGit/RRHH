@@ -5,63 +5,38 @@ import useStorageToken from "../hooks/use-StorageToken";
 
 import useAxiosToken from "../hooks/use-AxiosToken";
 import useReduxUsuario from "../redux/hooks/use-ReduxUsuario";
-
-import musuario from "../mocks/usuario.json";
+import { useNavigate } from "react-router-dom";
 
 export default function Persist() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const usuario = useReduxUsuario();
-
-  const token = useStorageToken();
-
+  const { list: usuarioList, create: createUsuario } = useReduxUsuario();
+  const { list: tokenList } = useStorageToken();
   const axiosToken = useAxiosToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true;
-
-    const refresh = async () => {
+    if (!tokenList?.id) {
+      navigate("/login");
+    } else if (!usuarioList?.user) {
       axiosToken
-        .get(`/users/retrieve/${token.id}`)
-        .then((response) => {
-          //Si existe el usuario y los id son iguales crear el redux usuario
-          if (response.status === 200 && response.data.id === token.id) {
-            usuario.create({
-              idUsuario: musuario.data.id,
-              usuario: musuario.data.username,
-              fullname: `${musuario.data.empleados.nombre} 
-                       ${musuario.data.empleados.apellido_paterno} 
-                       ${musuario.data.empleados.apellido_materno}`,
-              idProyecto: musuario.data.empleados.proyecto.id,
-              proyecto: musuario.data.empleados.proyecto.nombre,
-              departamento: musuario.data.empleados.areadpt.nombre,
-              cargo: musuario.data.empleados.cargo.nombre,
-            });
-          }
-        })
-        .finally(() => {
-          isMounted && setIsLoading(false);
-        });
-    };
+        .get(`/users/retrieve/${tokenList.id}`)
+        .then((response) => response.data)
+        .then((data) =>
+          createUsuario({
+            idUsuario: data.id,
+            usuario: data.username,
+            is_active: data.is_active,
+            is_admin: data.is_admin,
+            fullname: `${data.empleados.nombre} ${data.empleados.apellido_paterno} ${data.empleados.apellido_materno}`,
+            proyecto: data.empleados.proyecto.nombre,
+            departamento: data.empleados.areadpt.nombre,
+            cargo: data.empleados.cargo.nombre,
+          })
+        )
+        .finally(() => setIsLoading(false));
+    }
+  }, [axiosToken, createUsuario, navigate, tokenList, usuarioList]);
 
-    // Si no existe un usuario y si un token refrescar
-    !usuario?.list?.user && token?.list?.session
-      ? refresh()
-      : setIsLoading(false);
-
-    return () => (isMounted = false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <>
-      {usuario?.list?.usuario ? (
-        <Outlet />
-      ) : isLoading ? (
-        <p>Cargando...</p>
-      ) : (
-        <Outlet />
-      )}
-    </>
-  );
+  return isLoading ? <p>Cargando...</p> : <Outlet />;
 }
