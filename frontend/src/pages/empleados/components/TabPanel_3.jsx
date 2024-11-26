@@ -1,14 +1,18 @@
 import { TabPanel } from "@mui/lab";
-import { AutoCompletar } from "../../../components/mui";
 import { Box } from "@mui/material";
-import PropTypes from "prop-types";
 import { RUTAS_API } from "../../../constants";
 import CuadroChequeo from "../../../components/mui/CuadroChequeo";
-import Fecha from "../../../components/mui/Fecha";
 import useGetData from "../../../hooks/use-GetData";
 import { field_mano_obra } from "../resources/campos";
+import { useComponentContext } from "../../../context/use-ComponentContext";
+import {
+  renderACompletar,
+  renderFecha,
+} from "../../../components/mui/helpers/formHelpers";
 
-export default function TabPanel_3({ comun }) {
+export default function TabPanel_3() {
+  const control = useComponentContext();
+
   const proyecto = useGetData(RUTAS_API.organization.PROYECTO);
   const area = useGetData(RUTAS_API.organization.AREA);
   const cargo = useGetData(RUTAS_API.organization.CARGO);
@@ -26,107 +30,59 @@ export default function TabPanel_3({ comun }) {
         m={2}
         gridTemplateColumns="repeat(12, 1fr)"
       >
-        <Box gridColumn="span 3" textAlign="center">
-          {/*//! Nuevo ingreso */}
-          <AutoCompletar
-            name="mano_obra"
-            options={field_mano_obra}
-            label="Mano de obra"
-            span="3"
-            {...comun}
-          />
-        </Box>
-
+        {/*//! Nuevo ingreso */}
+        {renderACompletar(
+          control,
+          "mano_obra",
+          field_mano_obra,
+          "Mano de obra",
+          "3"
+        )}
         {/* //! Proyectos*/}
-        {!proyecto.loading && (
-          <AutoCompletar
-            name="proyecto"
-            label="Proyecto"
-            options={proyecto.data}
-            span="4"
-            {...comun}
-          />
-        )}
-
+        {!proyecto.loading &&
+          renderACompletar(control, "proyecto", proyecto.data, "Proyecto", "4")}
         {/* //! Área / Departamento */}
-        {!area.loading && (
-          <AutoCompletar
-            name="areadpt"
-            label="Área / Departamento"
-            options={area.data}
-            span="5"
-            {...comun}
-          />
-        )}
-
+        {!area.loading &&
+          renderACompletar(
+            control,
+            "areadpt",
+            area.data,
+            "Área / Departamento",
+            "5"
+          )}
         {/* //! Cargo */}
-        {!cargo.loading && (
-          <AutoCompletar
-            name="cargo"
-            label="Cargo"
-            options={cargo.data}
-            span="9"
-            {...comun}
-          />
-        )}
-
+        {!cargo.loading &&
+          renderACompletar(control, "cargo", cargo.data, "Cargo", "9")}
         {/* //! Fecha */}
-        <Fecha
-          name="fecha_cc"
-          label="Fecha de contrato en el cargo"
-          span="3"
-          {...comun}
-        />
+        {renderFecha(control, "fecha_cc", "Fecha de contrato en el cargo", "3")}
 
         {/* //! Antiguedad */}
-        {!antiguedad.loading && (
-          <AutoCompletar
-            name="antdd"
-            label="Antigüedad"
-            options={antiguedad.data}
-            span="3"
-            {...comun}
-          />
-        )}
-        <Box gridColumn="span 3" textAlign="center">
-          {/* //! Cobra por tarjeta */}
-          <CuadroChequeo name="cpt" label="Cobra por tarjeta" {...comun} />
-        </Box>
+        {!antiguedad.loading &&
+          renderACompletar(
+            control,
+            "antdd",
+            antiguedad.data,
+            "Antigüedad",
+            "3"
+          )}
+
+        {/* //! Cobra por tarjeta */}
+        <CuadroChequeo
+          name="cpt"
+          label="Cobra por tarjeta"
+          control={control}
+          span="3"
+        />
 
         {/* //! Turno */}
-        {!turno.loading && (
-          <AutoCompletar
-            name="turno"
-            label="Turno"
-            options={turno.data}
-            span="3"
-            {...comun}
-          />
-        )}
-
+        {!turno.loading &&
+          renderACompletar(control, "turno", turno.data, "Turno", "3")}
         {/* //! Pase */}
-        {!pase.loading && (
-          <AutoCompletar
-            name="pase"
-            label="Pase (RTD)"
-            options={pase.data}
-            span="3"
-            {...comun}
-          />
-        )}
-
+        {!pase.loading &&
+          renderACompletar(control, "pase", pase.data, "Pase (RTD)", "3")}
         {/* //! Fecha de captado */}
-        <Fecha
-          name="fecha_captado"
-          label="Fecha de captado"
-          span="3"
-          {...comun}
-        />
+        {renderFecha(control, "fecha_captado", "Fecha de captado", "4")}
       </Box>
     </TabPanel>
   );
 }
-
-TabPanel_3.propTypes = {
-  comun: PropTypes.object,
-};

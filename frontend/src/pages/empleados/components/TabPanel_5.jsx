@@ -1,11 +1,13 @@
 import { TabPanel } from "@mui/lab";
 import { Box } from "@mui/material";
-import PropTypes from "prop-types";
 import { RUTAS_API } from "../../../constants/rutas.api";
-import Autocompletar from "../../../components/mui/AutoCompletar";
 import useGetData from "../../../hooks/use-GetData";
+import { useComponentContext } from "../../../context/use-ComponentContext";
+import { renderACompletar } from "../../../components/mui/helpers/formHelpers";
 
-export default function TabPanel_5({ comun }) {
+export default function TabPanel_5() {
+  const control = useComponentContext();
+
   const pantalon = useGetData(RUTAS_API.vestimenta.PANTALON);
   const camisa = useGetData(RUTAS_API.vestimenta.CAMISA);
   const calzado = useGetData(RUTAS_API.vestimenta.CALZADO);
@@ -19,42 +21,35 @@ export default function TabPanel_5({ comun }) {
         gridTemplateColumns="repeat(6, 1fr)"
       >
         {/*//! Calzado */}
-        {!calzado.loading && (
-          <Autocompletar
-            name="calzado"
-            label="Talla Calzado"
-            options={calzado.data}
-            span="2"
-            {...comun}
-          />
-        )}
+        {!calzado.loading &&
+          renderACompletar(
+            control,
+            "calzado",
+            calzado.data,
+            "Talla Calzado",
+            "2"
+          )}
 
         {/*//! Camisa */}
-        {!camisa.loading && (
-          <Autocompletar
-            name="camisa"
-            label="Talla Camisa / Blusa"
-            options={camisa.data}
-            span="2"
-            {...comun}
-          />
-        )}
+        {!camisa.loading &&
+          renderACompletar(
+            control,
+            "camisa",
+            camisa.data,
+            "Talla Camisa / Blusa",
+            "2"
+          )}
 
         {/*//! Pantalon */}
-        {!pantalon.loading && (
-          <Autocompletar
-            name="pantalon"
-            label="Talla pantalón"
-            options={pantalon.data}
-            span="2"
-            {...comun}
-          />
-        )}
+        {!pantalon.loading &&
+          renderACompletar(
+            control,
+            "pantalon",
+            pantalon.data,
+            "Talla pantalón",
+            "2"
+          )}
       </Box>
     </TabPanel>
   );
 }
-
-TabPanel_5.propTypes = {
-  comun: PropTypes.object,
-};

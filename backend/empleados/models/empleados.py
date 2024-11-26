@@ -9,7 +9,7 @@ from localidad.models import Municipio, Provincia
 from otros.api.models import Pase, Procedencias, Antdd, Ne, AjtVjt, Turno
 from vestimenta.api.models import Calzado, Camisa, Pantalon
 
-from .api.fields_chocices import (
+from ..api.fields_chocices import (
     COLOR_PIEL_CHOICE,
     MOD_MOI_CHOICE,
     SEXO_CHOISE,

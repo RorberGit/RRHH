@@ -11,7 +11,6 @@ export default function AutoCompletar({
   onChange,
   multiple = false,
 }) {
-  console.log("control", control);
   const {
     field,
     fieldState: { error },

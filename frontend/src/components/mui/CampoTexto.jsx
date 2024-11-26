@@ -26,6 +26,7 @@ export default function CampoTexto({
         type={type}
         multiline={multiline}
         rows={rows}
+        fullWidth
         error={!!error}
         helperText={error?.message}
       />

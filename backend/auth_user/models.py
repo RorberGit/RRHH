@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from empleados.models import Empleados
+from empleados.models.empleados import Empleados
 
 # Create your models here.
 

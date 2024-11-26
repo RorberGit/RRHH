@@ -1,11 +1,16 @@
 import { TabPanel } from "@mui/lab";
-import { AutoCompletar, CampoTexto } from "../../../components/mui";
 import { Box } from "@mui/material";
-import PropTypes from "prop-types";
 import { RUTAS_API } from "../../../constants/rutas.api";
 import useGetData from "../../../hooks/use-GetData";
+import { useComponentContext } from "../../../context/use-ComponentContext";
+import {
+  renderACompletar,
+  renderCampoTexto,
+} from "../../../components/mui/helpers/formHelpers";
 
-export default function TabPanel_7({ comun }) {
+export default function TabPanel_7() {
+  const control = useComponentContext();
+
   const albergado = useGetData(RUTAS_API.OTHER.ALBERGADO);
 
   return (
@@ -17,58 +22,22 @@ export default function TabPanel_7({ comun }) {
         gridTemplateColumns="repeat(12, 1fr)"
       >
         {/* //! Albergado */}
-        {!albergado.loading && (
-          <AutoCompletar
-            name="ajtvjt"
-            label="Albergado / Viajante"
-            span="6"
-            options={albergado.data}
-            {...comun}
-          />
-        )}
+        {!albergado.loading &&
+          renderACompletar(
+            control,
+            "ajtvjt",
+            albergado.data,
+            "Albergado / Viajante",
+            "6"
+          )}
 
-        <CampoTexto
-          name="aptoabg"
-          label="Apartamento"
-          span="6"
-          {...comun}
-        />
-
-        <CampoTexto
-          name="bloque"
-          label="Bloque"
-          span="6"
-          {...comun}
-        />
-        <CampoTexto
-          name="cuarto"
-          label="Cuarto"
-          span="6"
-          {...comun}
-        />
-        <CampoTexto
-          name="po"
-          label="Parada omnibus"
-          span="6"
-          {...comun}
-        />
-        <CampoTexto
-          name="ruta"
-          label="Ruta"
-          span="6"
-          {...comun}
-        />
-        <CampoTexto
-          name="pantry"
-          label="Pantry"
-          span="6"
-          {...comun}
-        />
+        {renderCampoTexto(control, "aptoabg", "Apartamento", "6")}
+        {renderCampoTexto(control, "bloque", "Bloque", "6")}
+        {renderCampoTexto(control, "cuarto", "Cuarto", "6")}
+        {renderCampoTexto(control, "po", "Parada omnibus", "6")}
+        {renderCampoTexto(control, "ruta", "Ruta", "6")}
+        {renderCampoTexto(control, "pantry", "Pantry", "6")}
       </Box>
     </TabPanel>
   );
 }
-
-TabPanel_7.propTypes = {
-  comun: PropTypes.object,
-};

@@ -30,6 +30,7 @@ import { useBase64 } from "../../hooks/useBase64";
 import axios from "../../api/axios";
 import { initEmpleado } from "./models/init_Empleado";
 import { FormProvider } from "../../context/formContext";
+import { toast, Toaster } from "sonner";
 
 const Img = styled("img")({
   width: "100%",
@@ -48,6 +49,22 @@ export default function Formulario() {
     defaultValues: initEmpleado,
     resolver: validar(),
   });
+
+  const { errors } = formState;
+
+  /*
+    ! - Si existen errores en los componentes definidos en validar
+    ! - Se crea un array con keys, para evaluar si existen atributos con length
+    ! - Se usa entries para crear un array, con el que recorrer los param key y value con map
+    ! - Se muestra los mensajes con toast de sonner y se usa la option id = key, como identificador único
+  */
+  useEffect(() => {
+    if (Object.keys(errors).length) {
+      Object.entries(errors).map(([key, value]) => {
+        toast.error(value.message, { id: key });
+      });
+    }
+  }, [errors]);
 
   //! Atributos comunes para todos los componentes
   const comun = { control: control, formState: formState };
@@ -182,6 +199,7 @@ export default function Formulario() {
           </Grid>
         </Grid>
       </form>
+      <Toaster position="bottom-left" richColors visibleToasts={10} />
     </>
   );
 }

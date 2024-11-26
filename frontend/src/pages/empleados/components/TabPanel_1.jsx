@@ -3,15 +3,16 @@ import { Box, Divider } from "@mui/material";
 import { field_color_piel, field_sexo } from "../resources/campos";
 import { RUTAS_API } from "../../../constants";
 import useGetData from "../../../hooks/use-GetData";
-import { useFormContext } from "../../../context/use-FormContext";
 import {
   renderACompletar,
   renderCampoTexto,
   renderFecha,
 } from "../../../components/mui/helpers/formHelpers";
+import { useComponentContext } from "../../../context/use-ComponentContext";
 
 export default function TabPanel_1() {
-  const control = useFormContext();
+  const control = useComponentContext();
+  
   const nivel_escolar = useGetData(RUTAS_API.OTHER.NIVEL_ESCOLAR);
   const especialidad = useGetData(RUTAS_API.organization.ESPECIALIDAD);
   const procedencia = useGetData(RUTAS_API.OTHER.PROCEDENCIA);

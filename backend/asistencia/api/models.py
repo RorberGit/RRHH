@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CommonFields
-from empleados.models import Empleados
+from empleados.models.empleados import Empleados
 
 
 class RegistroEntradaSalida(CommonFields):

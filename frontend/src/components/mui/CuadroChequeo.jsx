@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import PropTypes from "prop-types";
 import { useController } from "react-hook-form";
 
@@ -6,7 +6,7 @@ function CuadroChequeo({ name, control, label, span }) {
   const { field } = useController({ name, control });
 
   return (
-    <>
+    <Box sx={span ? { gridColumn: `span ${span}` } : null}>
       <FormControlLabel
         control={
           <Checkbox
@@ -16,17 +16,15 @@ function CuadroChequeo({ name, control, label, span }) {
           />
         }
         label={label}
-        sx={span ? { gridColumn: `span ${span}` } : null}
       />
-    </>
+    </Box>
   );
 }
 
 CuadroChequeo.propTypes = {
-  name: PropTypes.string,  
-  control: PropTypes.object,
-  label: PropTypes.string,
-  formState: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  control: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
   span: PropTypes.string,
 };
 

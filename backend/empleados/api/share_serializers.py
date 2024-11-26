@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from empleados.models import Empleados
+from empleados.models.empleados import Empleados
 # from empleados.serializers import EmpleadosSerializers
 from organizacion.api.models import AreaDpto, Cargos, Proyectos
 

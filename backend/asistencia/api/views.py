@@ -7,7 +7,7 @@ from rest_framework.exceptions import NotFound, ParseError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from empleados.models import Empleados
+from empleados.models.empleados import Empleados
 from empleados.serializers import EmpleadosSerializers
 
 from .models import HoraEntradaSalida, RegistroEntradaSalida

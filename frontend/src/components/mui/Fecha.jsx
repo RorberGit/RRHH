@@ -20,7 +20,7 @@ export default function Fecha({
   } = useController({ name, control });
 
   return (
-    <Box sx={{ gridColumn: `span ${span}`, marginTop: "-8px" }}>
+    <Box sx={{ gridColumn: `span ${span}` }}>
       {/*Campo Fecha*/}
       <LocalizationProvider
         dateAdapter={AdapterDayjs}

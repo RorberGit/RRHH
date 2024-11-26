@@ -8,7 +8,7 @@ from rest_framework.exceptions import NotFound, NotAcceptable
 
 from empleados.api.share_serializers import ListFullEmpleadosSerializers, ResumenEmpleadoSerializers
 
-from .models import Empleados
+from .models.empleados import Empleados
 from .serializers import EmpleadosSerializers
 
 
@@ -25,44 +25,28 @@ class RetrieveEmpleados(APIView):
 
     def get(self, request):
 
-        # Parametros de consulta
-        one = request.query_params.get('one')
-        nip = request.query_params.get('nip')
+        #! Parametros de consulta        
         proyecto = request.query_params.get('proyecto')
 
         #! Inicializar filtro de busqueda
         filters = Q()
 
-        # Aplicar filtros si se proporcionan
-        if nip:
-            filters &= Q(nip=nip)
+        #! Aplicar filtros si se proporcionan
         if proyecto:
             filters &= Q(proyecto__nombre=proyecto)
 
-        # Obtener empleados según filtro establecido
-        # Si one existe filtrar con get() sin no, con filter()
-        if one:
-            try:
-                empleados = Empleados.objects.get(filters)
+        #! Obtener empleados según filtro establecido        
+        empleados = Empleados.objects.filter(filters)
 
-                # Serializar los resultados
-                serializer = ListFullEmpleadosSerializers(empleados)
+        #! Verificar si hay resultados
+        if not empleados.exists():
+            raise NotFound(
+                "No se encontraron empleados con los criterios especificados.")
 
-            except Empleados.DoesNotExist:
-                raise NotFound(
-                    "No se econtro empleado con el criterio especificado")
-        else:
-            empleados = Empleados.objects.filter(filters)
+        #! Serializar los resultados
+        serializer = ListFullEmpleadosSerializers(empleados, many=True)
 
-            # Verificar si hay resultados
-            if not empleados.exists():
-                raise NotFound(
-                    "No se encontraron empleados con los criterios especificados.")
-
-            # Serializar los resultados
-            serializer = ListFullEmpleadosSerializers(empleados, many=True)
-
-        # Retornar los resultados
+        #! Retornar los resultados
         return Response(serializer.data)
 
 
@@ -74,6 +58,7 @@ class GetOneEmpleado(APIView):
 
         #! Parametros de consulta
         nip = request.query_params.get('nip')
+        ci = request.query_params.get('ci')
         proyecto = request.query_params.get('proyecto')
         is_active = request.query_params.get('is_active')
 
@@ -83,11 +68,14 @@ class GetOneEmpleado(APIView):
         #! Aplicar filtros si se proporcionan
         if nip:
             filters &= Q(nip=nip)
+        if ci:
+            filters &= Q(ci=ci)
         if proyecto:
             filters &= Q(proyecto__nombre=proyecto)
         if is_active:
             filters &= Q(is_active=is_active)
 
+        #! Si no s ha especificado ningún criterio de busqueda
         if not filters:
             raise NotAcceptable("Filtros no especificados")
 
@@ -124,38 +112,9 @@ class DeleteEmpleados(generics.RetrieveDestroyAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class FilterEmpleados(generics.ListAPIView):
-    queryset = Empleados.objects.all()
-    serializer_class = EmpleadosSerializers
-    permission_classes = [permissions.AllowAny]
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ["id", "nombre", "ci"]
-    # para poner en el filtrado todos los campos del serializaers
-    """ filterset_fields = serializer_class.Meta.fields """
-    # ordering_fields = ['edad']
-    ordering = ["created_at"]
-
-
 class MaxNIP(APIView):
     def get(self, _):
         """obtener maximo numero"""
         max_nip = Empleados.objects.all().aggregate(
             max_number=Max("nip"))["max_number"]
         return Response({"max_nip": max_nip})
-
-
-class RetriveEmpleadosByNip(APIView):
-    def get(self, _, nip):
-        """Recuperar registro de empleados desde campo NIP
-
-        Args:
-            nip (numeric): Número de Identificación Personal
-        """
-        try:
-            empleados = Empleados.objects.get(nip=nip)
-        except Empleados.DoesNotExist as e:
-            raise NotFound(f"Registro no encontrado para NIP: {nip}") from e
-
-        serializer = ListFullEmpleadosSerializers(empleados)
-
-        return Response(serializer.data)
