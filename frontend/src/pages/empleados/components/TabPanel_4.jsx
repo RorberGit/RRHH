@@ -6,7 +6,7 @@ import { useComponentContext } from "../../../context/use-ComponentContext";
 import { renderACompletar } from "../../../components/mui/helpers/formHelpers";
 
 export default function TabPanel_4() {
-  const control = useComponentContext();
+  const {control} = useComponentContext();
 
   const afiliacion = useGetData(RUTAS_API.integracion.AFILIACION);
   const organizacion = useGetData(RUTAS_API.integracion.ORGANIZACIONES);

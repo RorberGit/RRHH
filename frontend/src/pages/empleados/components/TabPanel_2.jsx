@@ -11,7 +11,7 @@ import {
 import { useComponentContext } from "../../../context/use-ComponentContext";
 
 export default function TabPanel_2({ setValue }) {
-  const control = useComponentContext();
+  const { control } = useComponentContext();
 
   const [municipios, setMunicipios] = useState([]);
 

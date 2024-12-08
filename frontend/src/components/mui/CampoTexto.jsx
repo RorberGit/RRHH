@@ -10,6 +10,7 @@ export default function CampoTexto({
   type = "text",
   multiline = false,
   rows = 1,
+  onBlur = null,
 }) {
   const {
     field,
@@ -29,6 +30,7 @@ export default function CampoTexto({
         fullWidth
         error={!!error}
         helperText={error?.message}
+        onBlur={onBlur}
       />
     </Box>
   );
@@ -42,4 +44,5 @@ CampoTexto.propTypes = {
   span: PropTypes.string,
   multiline: PropTypes.bool,
   rows: PropTypes.number,
+  onBlur: PropTypes.func,
 };

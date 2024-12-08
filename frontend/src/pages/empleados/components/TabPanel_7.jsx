@@ -9,7 +9,7 @@ import {
 } from "../../../components/mui/helpers/formHelpers";
 
 export default function TabPanel_7() {
-  const control = useComponentContext();
+  const {control} = useComponentContext();
 
   const albergado = useGetData(RUTAS_API.OTHER.ALBERGADO);
 

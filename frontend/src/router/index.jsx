@@ -3,7 +3,7 @@ import Layaut from "./root";
 import Dashboard from "../pages/dashboard";
 import Asistencia from "../pages/asistencia";
 import Listado from "../pages/empleados/Listado";
-import Formulario from "../pages/empleados/Fornulario";
+import FormEmpleado from "../pages/empleados/views/FormEmpleado";
 import Login from "../pages/login";
 import Persist from "../components/Persist";
 
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: "create",
-                element: <Formulario />,
+                element: <FormEmpleado />,
               },
             ],
           },

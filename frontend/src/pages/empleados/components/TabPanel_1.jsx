@@ -1,6 +1,6 @@
 import { TabPanel } from "@mui/lab";
 import { Box, Divider } from "@mui/material";
-import { field_color_piel, field_sexo } from "../resources/campos";
+import { field_color_piel, field_sexo } from "../models/campos";
 import { RUTAS_API } from "../../../constants";
 import useGetData from "../../../hooks/use-GetData";
 import {
@@ -10,12 +10,36 @@ import {
 } from "../../../components/mui/helpers/formHelpers";
 import { useComponentContext } from "../../../context/use-ComponentContext";
 
+import useValidarCI from "../hooks/use-ValidarCI";
+
 export default function TabPanel_1() {
-  const control = useComponentContext();
-  
+  const { control, setError } = useComponentContext();
+
   const nivel_escolar = useGetData(RUTAS_API.OTHER.NIVEL_ESCOLAR);
   const especialidad = useGetData(RUTAS_API.organization.ESPECIALIDAD);
   const procedencia = useGetData(RUTAS_API.OTHER.PROCEDENCIA);
+
+  /*
+  ! Si se lanza el evento de salir del campo de texto CI
+  ! se valida si existe en la base de datos y en caso de existir
+  ! se crea el error al respecto
+  */
+
+  const ValidarCI = useValidarCI();
+
+  const handleOnBlur = async (event) => {
+    const ci = event.target.value;
+
+    if (!ci) return true;
+
+    const resp = await ValidarCI(ci);
+
+    if (!resp)
+      setError("ci", {
+        type: "manual",
+        message: "Número de identidad: ya esta registrado",
+      });
+  };
 
   return (
     <TabPanel value="1">
@@ -28,7 +52,16 @@ export default function TabPanel_1() {
         {renderCampoTexto(control, "nombre", "Nombre", "4")}
         {renderCampoTexto(control, "apellido_paterno", "Apellido paterno", "4")}
         {renderCampoTexto(control, "apellido_materno", "Apellido materno", "4")}
-        {renderCampoTexto(control, "ci", "Número de Identidad", "3", "number")}
+        {renderCampoTexto(
+          control,
+          "ci",
+          "Número de Identidad",
+          "3",
+          "number",
+          null,
+          null,
+          handleOnBlur
+        )}
 
         {renderACompletar(control, "sexo", field_sexo, "Sexo", "3")}
         {renderACompletar(

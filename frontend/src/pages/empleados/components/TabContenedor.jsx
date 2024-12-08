@@ -2,7 +2,7 @@ import { TabContext, TabList } from "@mui/lab";
 import { Tab } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
-function TabContenedor(props) {
+export default function TabContenedor(props) {
   const [value, setValue] = useState("1");
 
   const handleChangeTabList = (_, Value) => {
@@ -32,4 +32,3 @@ function TabContenedor(props) {
 TabContenedor.propTypes = {
   children: PropTypes.any,
 };
-export default TabContenedor;

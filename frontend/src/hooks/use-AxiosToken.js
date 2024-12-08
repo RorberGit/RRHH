@@ -49,7 +49,8 @@ export default function useAxiosToken() {
       axiosToken.interceptors.request.eject(requestIntercept);
       axiosToken.interceptors.response.eject(responseIntercept);
     };
-  }, [location, navigate, token]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return axiosToken;
 }

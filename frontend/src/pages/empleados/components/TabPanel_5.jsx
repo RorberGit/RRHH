@@ -6,7 +6,7 @@ import { useComponentContext } from "../../../context/use-ComponentContext";
 import { renderACompletar } from "../../../components/mui/helpers/formHelpers";
 
 export default function TabPanel_5() {
-  const control = useComponentContext();
+  const {control} = useComponentContext();
 
   const pantalon = useGetData(RUTAS_API.vestimenta.PANTALON);
   const camisa = useGetData(RUTAS_API.vestimenta.CAMISA);

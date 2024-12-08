@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { RUTAS_API } from "../../../constants";
 import CuadroChequeo from "../../../components/mui/CuadroChequeo";
 import useGetData from "../../../hooks/use-GetData";
-import { field_mano_obra } from "../resources/campos";
+import { field_mano_obra } from "../models/campos";
 import { useComponentContext } from "../../../context/use-ComponentContext";
 import {
   renderACompletar,
@@ -11,7 +11,7 @@ import {
 } from "../../../components/mui/helpers/formHelpers";
 
 export default function TabPanel_3() {
-  const control = useComponentContext();
+  const {control} = useComponentContext();
 
   const proyecto = useGetData(RUTAS_API.organization.PROYECTO);
   const area = useGetData(RUTAS_API.organization.AREA);

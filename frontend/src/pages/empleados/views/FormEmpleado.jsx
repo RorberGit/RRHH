@@ -10,8 +10,20 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { validar } from "./models/validar";
+
+import { crearRegistro } from "../helpers/crearRegistro";
+import { MuiFileInput } from "mui-file-input";
+import { AttachFile } from "@mui/icons-material";
+import useGetData from "../../../hooks/use-GetData";
+import { EMPLEADO } from "../../../constants";
+import { useBase64 } from "../../../hooks/useBase64";
+import { defaultEmpleado } from "../models/defaultEmpleado";
+import { FormProvider } from "../../../context/formContext";
+import { toast, Toaster } from "sonner";
+import { useMemo } from "react";
+import useValidaForm from "../hooks/use-ValidaForm";
 import {
+  TabContenedor,
   TabPanel_1,
   TabPanel_2,
   TabPanel_3,
@@ -19,18 +31,8 @@ import {
   TabPanel_5,
   TabPanel_6,
   TabPanel_7,
-} from "./components";
-import TabContenedor from "./components/TabContenedor";
-import { crearRegistro } from "./utilities/crearRegistro";
-import { MuiFileInput } from "mui-file-input";
-import { AttachFile } from "@mui/icons-material";
-import useGetData from "../../hooks/use-GetData";
-import { EMPLEADO } from "../../constants";
-import { useBase64 } from "../../hooks/useBase64";
-import axios from "../../api/axios";
-import { initEmpleado } from "./models/init_Empleado";
-import { FormProvider } from "../../context/formContext";
-import { toast, Toaster } from "sonner";
+} from "../components";
+import { axiosToken } from "../../../api/axios";
 
 const Img = styled("img")({
   width: "100%",
@@ -39,18 +41,25 @@ const Img = styled("img")({
   objectPosition: "center",
 });
 
-export default function Formulario() {
+export default function FormEmpleado() {
   const [loading, setLoading] = useState(true);
 
   const [file, setFile] = useState(null);
 
-  //! Configurarción del react-hook-form
-  const { register, handleSubmit, control, formState, setValue } = useForm({
-    defaultValues: initEmpleado,
-    resolver: validar(),
-  });
+  const { resolver } = useValidaForm();
 
-  const { errors } = formState;
+  //! Configurarción del react-hook-form
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    setValue,
+    setError,
+  } = useForm({
+    defaultValues: defaultEmpleado,
+    resolver: resolver,
+  });
 
   /*
     ! - Si existen errores en los componentes definidos en validar
@@ -58,16 +67,15 @@ export default function Formulario() {
     ! - Se usa entries para crear un array, con el que recorrer los param key y value con map
     ! - Se muestra los mensajes con toast de sonner y se usa la option id = key, como identificador único
   */
+  const entries = useMemo(() => Object.entries(errors), [errors]);
+
   useEffect(() => {
-    if (Object.keys(errors).length) {
-      Object.entries(errors).map(([key, value]) => {
+    if (entries.length) {
+      entries.map(([key, value]) => {
         toast.error(value.message, { id: key });
       });
     }
-  }, [errors]);
-
-  //! Atributos comunes para todos los componentes
-  const comun = { control: control, formState: formState };
+  }, [entries]);
 
   //! Octener el último numero de empleado
   const nipData = useGetData(EMPLEADO.MAX);
@@ -80,9 +88,9 @@ export default function Formulario() {
 
     const row = crearRegistro(data);
 
-    console.info("renderizado:>", row);
+    console.info("renderizado :>", row);
 
-    const create = await axios.post(EMPLEADO.CREATE, row);
+    const create = await axiosToken.post(EMPLEADO.CREATE, row);
 
     console.log("create :>> ", create);
   };
@@ -165,29 +173,29 @@ export default function Formulario() {
                 />
               </Stack>
 
-              <FormProvider value={control}>
+              <FormProvider value={{ control, setError }}>
                 {/* //!Contenedor global de los Tab*/}
                 <TabContenedor>
                   {/* //! Datos personales */}
-                  <TabPanel_1 comun={comun} />
+                  <TabPanel_1 />
 
                   {/* //! Dirección particular */}
-                  <TabPanel_2 comun={comun} setValue={setValue} />
+                  <TabPanel_2 setValue={setValue} />
 
                   {/* //! Datos laborales */}
-                  <TabPanel_3 comun={comun} />
+                  <TabPanel_3 />
 
                   {/*//! Afiliaciones */}
-                  <TabPanel_4 comun={comun} />
+                  <TabPanel_4 />
 
                   {/* //! Vestimenta de trabajo */}
-                  <TabPanel_5 comun={comun} />
+                  <TabPanel_5 />
 
                   {/* //! Vivienda */}
-                  <TabPanel_6 comun={comun} />
+                  <TabPanel_6 />
 
                   {/* //! Alojamiento */}
-                  <TabPanel_7 comun={comun} />
+                  <TabPanel_7 />
                 </TabContenedor>
               </FormProvider>
               <Box sx={{ textAlign: "right", pr: 4 }}>

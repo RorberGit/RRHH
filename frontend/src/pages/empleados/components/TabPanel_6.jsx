@@ -1,12 +1,12 @@
 import { TabPanel } from "@mui/lab";
 import { Box } from "@mui/material";
 import CuadroChequeo from "../../../components/mui/CuadroChequeo";
-import { field_estado_vivienda } from "../resources/campos";
+import { field_estado_vivienda } from "../models/campos";
 import { useComponentContext } from "../../../context/use-ComponentContext";
 import { renderACompletar } from "../../../components/mui/helpers/formHelpers";
 
 export default function TabPanel_6() {
-  const control = useComponentContext();
+  const {control} = useComponentContext();
 
   return (
     <TabPanel value="6">

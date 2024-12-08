@@ -9,7 +9,8 @@ export const renderCampoTexto = (
   span,
   type,
   multiline,
-  rows
+  rows,
+  onBlur
 ) => (
   <CampoTexto
     control={control}
@@ -19,6 +20,7 @@ export const renderCampoTexto = (
     type={type}
     multiline={multiline}
     rows={rows}
+    onBlur={onBlur}
   />
 );
 

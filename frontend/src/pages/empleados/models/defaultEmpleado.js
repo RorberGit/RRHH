@@ -1,4 +1,4 @@
-export const initEmpleado = {
+export const defaultEmpleado = {
   nip: "",
   nombre: "",
   apellido_paterno: "",
