@@ -3,14 +3,17 @@ import CampoTexto from "@components/mui/CampoTexto";
 import useValidarCI from "@pages/empleados/hooks/use-ValidarCI";
 
 export default function Ci() {
-  const { control, setError } = useComponentContext();
+  const { control, setError, clearErrors } = useComponentContext();
 
   const ValidarCI = useValidarCI();
 
   const handleOnBlur = async (event) => {
     const ci = event.target.value;
 
-    if (!ci) return true;
+    if (!ci) {
+      clearErrors("ci");
+      return true;
+    }
 
     const resp = await ValidarCI(ci);
 
@@ -19,6 +22,7 @@ export default function Ci() {
         type: "manual",
         message: "Número de identidad: ya esta registrado",
       });
+    else clearErrors("ci");
   };
 
   return (

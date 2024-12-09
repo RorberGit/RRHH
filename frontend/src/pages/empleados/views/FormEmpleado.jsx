@@ -14,14 +14,14 @@ import { useForm } from "react-hook-form";
 import { crearRegistro } from "../helpers/crearRegistro";
 import { MuiFileInput } from "mui-file-input";
 import { AttachFile } from "@mui/icons-material";
-import useGetData from "../../../hooks/use-GetData";
-import { EMPLEADO } from "../../../constants";
-import { useBase64 } from "../../../hooks/useBase64";
+import useGetData from "@hooks/use-GetData";
+import { EMPLEADO } from "@constants";
+import { useBase64 } from "@hooks/useBase64";
 import { defaultEmpleado } from "../models/defaultEmpleado";
-import { FormProvider } from "../../../context/formContext";
+import { FormProvider } from "@context/formContext";
 import { toast, Toaster } from "sonner";
 import { useMemo } from "react";
-import useValidaForm from "../hooks/use-ValidaForm";
+import useValidaForm from "@pages/empleados/hooks/use-ValidaForm";
 import {
   TabContenedor,
   TabPanel_1,
@@ -31,8 +31,9 @@ import {
   TabPanel_5,
   TabPanel_6,
   TabPanel_7,
-} from "../components";
-import { axiosToken } from "../../../api/axios";
+} from "@pages/empleados/components";
+import axios from "@api/axios_interceptor.js";
+import { useRouter } from "@hooks/use-router";
 
 const Img = styled("img")({
   width: "100%",
@@ -48,6 +49,8 @@ export default function FormEmpleado() {
 
   const { resolver } = useValidaForm();
 
+  const router = useRouter();
+
   //! Configurarción del react-hook-form
   const {
     register,
@@ -56,6 +59,7 @@ export default function FormEmpleado() {
     formState: { errors },
     setValue,
     setError,
+    clearErrors,
   } = useForm({
     defaultValues: defaultEmpleado,
     resolver: resolver,
@@ -90,9 +94,13 @@ export default function FormEmpleado() {
 
     console.info("renderizado :>", row);
 
-    const create = await axiosToken.post(EMPLEADO.CREATE, row);
+    const create = await axios.post(EMPLEADO.CREATE, row);
 
     console.log("create :>> ", create);
+
+    if (create.status === 201) toast.success("Empleado creado con exito");
+
+    router.push("/employee/listing");
   };
 
   useEffect(() => {
@@ -173,7 +181,7 @@ export default function FormEmpleado() {
                 />
               </Stack>
 
-              <FormProvider value={{ control, setError }}>
+              <FormProvider value={{ control, setError, clearErrors }}>
                 {/* //!Contenedor global de los Tab*/}
                 <TabContenedor>
                   {/* //! Datos personales */}

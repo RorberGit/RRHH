@@ -1,22 +1,23 @@
 import { useComponentContext } from "@context/use-ComponentContext";
 import useFetching from "@hooks/use-Fetching";
 import AutoCompletar from "@components/mui/AutoCompletar";
-import { OTHER } from "@constants";
+import { RUTAS_API } from "@constants";
 
-export default function Antiguedad() {
+export default function Organizacion() {
   const { control } = useComponentContext();
 
-  const { data, loading } = useFetching(OTHER.ANTIGUEDAD);
+  const { data, loading } = useFetching(RUTAS_API.integracion.ORGANIZACIONES);
 
   if (loading) return <h3>Cargando...</h3>;
 
   return (
     <AutoCompletar
       control={control}
-      name="antdd"
-      label="Antigüedad"
+      name="orm"
+      label="Organizaciones de masa"
       options={data}
-      span="5"
+      span="2"
+      multiple={true}
     />
   );
 }

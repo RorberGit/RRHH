@@ -1,17 +1,11 @@
 import { TabPanel } from "@mui/lab";
 import { Box } from "@mui/material";
-import { OTHER } from "@constants/rutas.api";
-import useGetData from "../../../hooks/use-GetData";
-import { useComponentContext } from "../../../context/use-ComponentContext";
-import {
-  renderACompletar,
-  renderCampoTexto,
-} from "../../../components/mui/helpers/formHelpers";
+import { useComponentContext } from "@context/use-ComponentContext";
+import { renderCampoTexto } from "@components/mui/helpers/formHelpers";
+import Albergado from "./albergado";
 
 export default function TabPanel_7() {
   const { control } = useComponentContext();
-
-  const albergado = useGetData(OTHER.ALBERGADO);
 
   return (
     <TabPanel value="7">
@@ -22,14 +16,7 @@ export default function TabPanel_7() {
         gridTemplateColumns="repeat(12, 1fr)"
       >
         {/* //! Albergado */}
-        {!albergado.loading &&
-          renderACompletar(
-            control,
-            "ajtvjt",
-            albergado.data,
-            "Albergado / Viajante",
-            "6"
-          )}
+        <Albergado />
 
         {renderCampoTexto(control, "aptoabg", "Apartamento", "6")}
         {renderCampoTexto(control, "bloque", "Bloque", "6")}

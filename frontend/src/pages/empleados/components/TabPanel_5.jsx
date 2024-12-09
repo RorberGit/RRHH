@@ -1,17 +1,10 @@
 import { TabPanel } from "@mui/lab";
 import { Box } from "@mui/material";
-import { RUTAS_API } from "../../../constants/rutas.api";
-import useGetData from "../../../hooks/use-GetData";
-import { useComponentContext } from "../../../context/use-ComponentContext";
-import { renderACompletar } from "../../../components/mui/helpers/formHelpers";
+import Calzado from "./calzado";
+import Camisa from "./camisa";
+import Pantalon from "./pantalon";
 
 export default function TabPanel_5() {
-  const {control} = useComponentContext();
-
-  const pantalon = useGetData(RUTAS_API.vestimenta.PANTALON);
-  const camisa = useGetData(RUTAS_API.vestimenta.CAMISA);
-  const calzado = useGetData(RUTAS_API.vestimenta.CALZADO);
-
   return (
     <TabPanel value="5">
       <Box
@@ -21,34 +14,13 @@ export default function TabPanel_5() {
         gridTemplateColumns="repeat(6, 1fr)"
       >
         {/*//! Calzado */}
-        {!calzado.loading &&
-          renderACompletar(
-            control,
-            "calzado",
-            calzado.data,
-            "Talla Calzado",
-            "2"
-          )}
+        <Calzado />
 
         {/*//! Camisa */}
-        {!camisa.loading &&
-          renderACompletar(
-            control,
-            "camisa",
-            camisa.data,
-            "Talla Camisa / Blusa",
-            "2"
-          )}
+        <Camisa />
 
         {/*//! Pantalon */}
-        {!pantalon.loading &&
-          renderACompletar(
-            control,
-            "pantalon",
-            pantalon.data,
-            "Talla pantalón",
-            "2"
-          )}
+        <Pantalon />
       </Box>
     </TabPanel>
   );
