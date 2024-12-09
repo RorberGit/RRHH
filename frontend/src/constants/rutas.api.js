@@ -5,20 +5,7 @@ export const RUTAS_API = {
     LISTING: "users/listing/",
     RETRIEVE: "users/retrieve/",
   },
-  OTHER: {
-    ANTIGUEDAD: "other/antique/",
-    NIVEL_ESCOLAR: "other/school/",
-    PROCEDENCIA: "other/procedence/",
-    TURNO: "/other/turn/",
-    PASE: "/other/pass/",
-    ALBERGADO: "other/ajtvjt/",
-  },
-  organization: {
-    PROYECTO: "organization/projects/",
-    AREA: "organization/areadpto/",
-    CARGO: "organization/positions/",
-    ESPECIALIDAD: "organization/specialties/",
-  },
+
   integracion: {
     AFILIACION: "integration/afp/",
     ORGANIZACIONES: "integration/orm/",
@@ -29,6 +16,15 @@ export const RUTAS_API = {
     CAMISA: "attire/shirt/",
     CALZADO: "attire/footwear/",
   },
+};
+
+export const OTHER = {
+  ANTIGUEDAD: "other/antique/",
+  NIVEL_ESCOLAR: "other/school/",
+  PROCEDENCIA: "other/procedence/",
+  TURNO: "/other/turn/",
+  PASE: "/other/pass/",
+  ALBERGADO: "other/ajtvjt/",
 };
 
 export const EMPLEADO = {
@@ -43,4 +39,11 @@ export const EMPLEADO = {
 export const ASISTENCIA = {
   JORNADA: "asistencia/timeworkforday",
   ENTRADA_SALIDA: "asistencia/registroentrada",
+};
+
+export const ORGANITATION = {
+  PROYECTO: "organization/projects/",
+  AREA: "organization/areadpto/",
+  CARGO: "organization/positions/",
+  ESPECIALIDAD: "organization/specialties/",
 };

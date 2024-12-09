@@ -1,26 +1,27 @@
 import { TabPanel } from "@mui/lab";
 import { Box } from "@mui/material";
-import { RUTAS_API } from "../../../constants";
-import CuadroChequeo from "../../../components/mui/CuadroChequeo";
-import useGetData from "../../../hooks/use-GetData";
+import { ORGANITATION, OTHER } from "@constants";
+import CuadroChequeo from "@components/mui/CuadroChequeo";
+import useGetData from "@hooks/use-GetData";
 import { field_mano_obra } from "../models/campos";
-import { useComponentContext } from "../../../context/use-ComponentContext";
+import { useComponentContext } from "@context/use-ComponentContext";
 import {
   renderACompletar,
   renderFecha,
-} from "../../../components/mui/helpers/formHelpers";
+} from "@components/mui/helpers/formHelpers";
+import Proyecto from "./proyecto";
 
 export default function TabPanel_3() {
-  const {control} = useComponentContext();
+  const { control } = useComponentContext();
 
-  const proyecto = useGetData(RUTAS_API.organization.PROYECTO);
-  const area = useGetData(RUTAS_API.organization.AREA);
-  const cargo = useGetData(RUTAS_API.organization.CARGO);
+  const proyecto = useGetData(ORGANITATION.PROYECTO);
+  const area = useGetData(ORGANITATION.AREA);
+  const cargo = useGetData(ORGANITATION.CARGO);
 
-  const antiguedad = useGetData(RUTAS_API.OTHER.ANTIGUEDAD);
+  const antiguedad = useGetData(OTHER.ANTIGUEDAD);
 
-  const turno = useGetData(RUTAS_API.OTHER.TURNO);
-  const pase = useGetData(RUTAS_API.OTHER.PASE);
+  const turno = useGetData(OTHER.TURNO);
+  const pase = useGetData(OTHER.PASE);
 
   return (
     <TabPanel value="3">
@@ -39,20 +40,14 @@ export default function TabPanel_3() {
           "3"
         )}
         {/* //! Proyectos*/}
-        {!proyecto.loading &&
-          renderACompletar(control, "proyecto", proyecto.data, "Proyecto", "4")}
+        <Proyecto />
+
         {/* //! Área / Departamento */}
-        {!area.loading &&
-          renderACompletar(
-            control,
-            "areadpt",
-            area.data,
-            "Área / Departamento",
-            "5"
-          )}
+        <Area />
+        
         {/* //! Cargo */}
-        {!cargo.loading &&
-          renderACompletar(control, "cargo", cargo.data, "Cargo", "9")}
+        <Cargo />
+        
         {/* //! Fecha */}
         {renderFecha(control, "fecha_cc", "Fecha de contrato en el cargo", "3")}
 

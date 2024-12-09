@@ -8,17 +8,27 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-import fetching from "@services/fetching";
+
 import { useEffect } from "react";
-import useSWR from "swr";
+
+import useFetching from "@hooks/use-Fetching";
 
 export default function Listado() {
-  const { data, error } = useSWR("employee/getone/?ci=78080324904", fetching);
+  const { data, error, loading } = useFetching(
+    "employee/getone/?ci=78080324903"
+  );
 
   useEffect(() => {
     console.log("Data swr => ", data);
-    console.log("Error swr => ", error);
-  }, [data, error]);
+  }, [data]);
+
+  useEffect(() => {
+    console.error("Error swr => ", error);
+  }, [error]);
+
+  useEffect(() => {
+    console.log("Loading swr => ", loading);
+  }, [loading]);
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -60,6 +70,8 @@ export default function Listado() {
       setIsUploading(false);
     }
   };
+
+  if (loading) return <h1>Cargando...</h1>
 
   return (
     <>

@@ -1,5 +1,5 @@
 import axios from "@api/axios_interceptor";
-import { EMPLEADO } from "../../../constants/rutas.api";
+import { EMPLEADO } from "@constants/rutas.api";
 
 export default function useValidarCI() {
   const validateCI = async (ci) => {

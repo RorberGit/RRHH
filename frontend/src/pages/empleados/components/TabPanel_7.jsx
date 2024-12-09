@@ -1,6 +1,6 @@
 import { TabPanel } from "@mui/lab";
 import { Box } from "@mui/material";
-import { RUTAS_API } from "../../../constants/rutas.api";
+import { OTHER } from "@constants/rutas.api";
 import useGetData from "../../../hooks/use-GetData";
 import { useComponentContext } from "../../../context/use-ComponentContext";
 import {
@@ -9,9 +9,9 @@ import {
 } from "../../../components/mui/helpers/formHelpers";
 
 export default function TabPanel_7() {
-  const {control} = useComponentContext();
+  const { control } = useComponentContext();
 
-  const albergado = useGetData(RUTAS_API.OTHER.ALBERGADO);
+  const albergado = useGetData(OTHER.ALBERGADO);
 
   return (
     <TabPanel value="7">

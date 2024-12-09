@@ -13,8 +13,10 @@ const fetching = async (url) => {
             detail: error.response.data.detail,
             status: error.response.status,
           };
-          throw err; // Lanza el error
+          throw err;
         }
+        case 500:
+          throw new Error("Error en el servidor. Inténtalo más tarde.");
         default:
           throw new Error("Ocurrió un error inesperado.");
       }
