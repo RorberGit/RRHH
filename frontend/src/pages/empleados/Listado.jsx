@@ -9,33 +9,24 @@ import {
 import { useState } from "react";
 import axios from "axios";
 
-import { useEffect } from "react";
-
-import useFetching from "@hooks/use-Fetching";
+import persona from "@assets/add_person.png";
+import { Upload } from "@mui/icons-material";
 
 export default function Listado() {
-  const { data, error, loading } = useFetching(
-    "employee/getone/?ci=78080324903"
-  );
-
-  useEffect(() => {
-    console.log("Data swr => ", data);
-  }, [data]);
-
-  useEffect(() => {
-    console.error("Error swr => ", error);
-  }, [error]);
-
-  useEffect(() => {
-    console.log("Loading swr => ", loading);
-  }, [loading]);
-
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
 
+  const [isHovered, setIsHovered] = useState(false); // Estado para controlar la visibilidad del botón
+
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    //setSelectedFile(event.target.files[0]);
+
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedFile(imageUrl); // Actualiza el estado con la URL de la imagen
+    }
   };
 
   const handleUpload = async () => {
@@ -71,8 +62,6 @@ export default function Listado() {
     }
   };
 
-  if (loading) return <h1>Cargando...</h1>
-
   return (
     <>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -80,23 +69,45 @@ export default function Listado() {
           <Typography variant="h6" gutterBottom>
             Subir Imagen
           </Typography>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-            id="upload-button-file"
-          />
-          <label htmlFor="upload-button-file">
-            <Button
-              variant="outlined"
-              color="primary"
-              component="span"
-              sx={{ marginTop: 2 }}
-            >
-              Seleccionar Imagen
-            </Button>
-          </label>
+
+          <div style={{ backgroundImage: persona }}>rorber</div>
+          <Box
+            sx={{
+              backgroundImage: `url(${selectedFile || persona})`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              height: "300px",
+              width: "250px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "stretch",
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              id="upload-button-file"
+            />
+            {isHovered && (
+              <label htmlFor="upload-button-file">
+                <Button
+                  variant="text"
+                  color="error"
+                  component="span"
+                  sx={{ height: "100%" }}
+                >
+                  Seleccionar Imagen
+                  <Upload />
+                </Button>
+              </label>
+            )}
+          </Box>
+
           <Button
             variant="contained"
             color="secondary"

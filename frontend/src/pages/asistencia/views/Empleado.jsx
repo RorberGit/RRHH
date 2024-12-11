@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import persona from "../../../assets/person.jpg";
+import persona from "../../../assets/person.png";
 import PropTypes from "prop-types";
 
 export default function Empleado({ employee }) {
