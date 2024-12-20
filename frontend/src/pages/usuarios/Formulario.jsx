@@ -1,6 +1,6 @@
 import { Paper } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AttachFile } from "@mui/icons-material";
 import Px from "./pp";
 
@@ -10,10 +10,6 @@ export default function Formulario() {
   const handleChange = (newFile) => {
     setFile(newFile);
   };
-
-  useEffect(() => {
-    console.info("File :>", file);
-  }, [file]);
 
   return (
     <>

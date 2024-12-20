@@ -1,6 +1,7 @@
 import {
   Alert,
   Backdrop,
+  Button,
   CircularProgress,
   Container,
   Paper,
@@ -13,9 +14,11 @@ import { Tabla } from "../../components/mui";
 import { useCallback, useMemo } from "react";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Delete, Edit } from "@mui/icons-material";
+import { useRouter } from "@hooks/use-router";
 
 export default function Lista() {
   const { data, error, loading } = useFetch(RUTAS_API.USERS.LISTING);
+  const router = useRouter();
 
   const deleteUser = useCallback(
     (value) => () => {
@@ -30,6 +33,10 @@ export default function Lista() {
     },
     []
   );
+
+  const handleAddUser = () => {
+    router.push("/usuarios/formulario");
+  };
 
   const columns = useMemo(
     () => [
@@ -124,6 +131,9 @@ export default function Lista() {
           <>
             <Stack spacing={2}>
               <Typography variant="h5">Lista de usuarios</Typography>
+              <Button variant="contained" onClick={handleAddUser}>
+                Agregar Usuario
+              </Button>
               {error && <Alert severity="error">{error}</Alert>}
               <Tabla rows={data} columns={columns} />
             </Stack>

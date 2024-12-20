@@ -1,24 +1,21 @@
 import MuiDrawer from "@mui/material/Drawer";
 import { IconButton, Toolbar, styled } from "@mui/material";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { useState } from "react";
 import MenuItem from "./MenuItem";
 import { ListItems } from "./constants/ListItems";
-
-/* const Drawer = styled(MuiDrawer)({
-  width: 240,
-  transition: 'width 0.2s ease-in-out',
-});
-
-const drawerWidth = 240; */
+import { ArrowBack } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
+  "&": {
+    //! El & hace referencia a MuiDrawer-root
+    height: "100%",
+  },
   "& .MuiDrawer-paper": {
     position: "relative",
     whiteSpace: "nowrap",
-    marginTop: 65,
     width: 240,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -33,14 +30,14 @@ const Drawer = styled(MuiDrawer, {
       }),
       width: theme.spacing(7),
       [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
+        width: theme.spacing(6),
       },
     }),
   },
 }));
 
 export default function PermanentDrawer() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <Drawer variant="permanent" open={isDrawerOpen}>
@@ -53,10 +50,14 @@ export default function PermanentDrawer() {
         }}
       >
         <IconButton onClick={() => setIsDrawerOpen((prev) => !prev)}>
-          {isDrawerOpen ? <ChevronLeft /> : <ChevronRight />}
+          {isDrawerOpen ? (
+            <ArrowBack color="primary" />
+          ) : (
+            <ArrowForward color="primary" />
+          )}
         </IconButton>
       </Toolbar>
-      {ListItems && <MenuItem items={ListItems} />}
+      {isDrawerOpen && <MenuItem items={ListItems} />}
     </Drawer>
   );
 }

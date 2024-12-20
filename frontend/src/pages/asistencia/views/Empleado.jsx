@@ -22,7 +22,7 @@ export default function Empleado({ employee }) {
         height={300}
         placeholder={<img alt="persona" src={persona} />}
         style={{ marginRight: 20 }}
-        src={employee?.foto}
+        src={employee?.foto || persona}
       ></LazyLoadImage>
 
       <Box>

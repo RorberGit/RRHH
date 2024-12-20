@@ -13,23 +13,23 @@ const theme = createTheme(
   esES
 );
 
-function Tabla(props) {
-  const { rows, columns } = props;
-
+function Tabla({ rows, columns, loading = true }) {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-            },
-          }}
-          autoHeight
-        />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            loading={loading}
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
+          />
+        </div>
       </ThemeProvider>
     </>
   );
@@ -37,5 +37,6 @@ function Tabla(props) {
 Tabla.propTypes = {
   rows: PropTypes.array,
   columns: PropTypes.array,
+  loading: PropTypes.bool,
 };
 export default Tabla;

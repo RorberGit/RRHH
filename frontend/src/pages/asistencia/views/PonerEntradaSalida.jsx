@@ -1,14 +1,14 @@
 import { TextField } from "@mui/material";
 import debounce from "just-debounce-it";
 import { useEffect, useCallback } from "react";
-import { axiosToken } from "../../../api/axios";
-import useGetData from "../../../hooks/use-GetData";
+import axios from "@api/axios_interceptor";
+import useFetching from "@hooks/use-Fetching";
 import Swal from "sweetalert2";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-import { EMPLEADO } from "../../../constants";
+import { EMPLEADO } from "@constants";
 
 export default function PonerEntradaSalida({
   setEmployee,
@@ -19,31 +19,33 @@ export default function PonerEntradaSalida({
   const [search, setSearch] = useState(null);
 
   //! Custom Hooks para las solicitudes al API
-  const { data, error } = useGetData(search);
+  const { data, error } = useFetching(search);
 
   useEffect(() => {
     error && toast.error(error?.detail);
   }, [error]);
 
+  const empleado = useMemo(() => {
+    return (
+      data && {
+        foto: data?.foto,
+        nip: data?.nip,
+        ci: data?.ci,
+        nombre_completo: `${data?.nombre} ${data?.apellido_paterno} ${data?.apellido_materno}`,
+        area: data?.areadpt.nombre,
+        cargo: data?.cargo.nombre,
+        proyecto: data?.proyecto.nombre,
+        mano_obra: data?.mano_obra,
+        estado: data?.estado,
+        is_active: data?.is_active,
+      }
+    );
+  }, [data]);
+
   //! Poblar el setEmployee con los datos del empleado
   useEffect(() => {
-    setEmployee(
-      data
-        ? {
-            foto: data?.foto,
-            nip: data.nip,
-            ci: data.ci,
-            nombre_completo: `${data.nombre} ${data.apellido_paterno} ${data.apellido_materno}`,
-            area: data.areadpt?.nombre,
-            cargo: data?.cargo?.nombre,
-            proyecto: data?.proyecto?.nombre,
-            mano_obra: data?.mano_obra,
-            estado: data.estado,
-            is_active: data.is_active,
-          }
-        : null
-    );
-  }, [data, setEmployee]);
+    setEmployee(empleado);
+  }, [empleado, setEmployee]);
 
   /*  - Esperar 5 segundos para buscar el empleado 
       - Si existe un nip almacena la url sino devuelve nulo
@@ -93,7 +95,7 @@ export default function PonerEntradaSalida({
 
     if (result.isConfirmed) {
       try {
-        await (estado === "SALIDA" ? axiosToken.post : axiosToken.put)(
+        await (estado === "SALIDA" ? axios.post : axios.put)(
           url,
           estado === "SALIDA" ? { nip } : undefined
         );
@@ -120,12 +122,12 @@ export default function PonerEntradaSalida({
       <form onSubmit={handleSubmit}>
         <TextField
           name="nip"
+          type="number"
           label="NIP del trabajador"
           onChange={handleChange}
           value={nip}
         />
       </form>
-      <Toaster position="bottom-left" richColors />
     </div>
   );
 }

@@ -17,6 +17,8 @@ class Historico_Empleados(CommonFields):
     descripcion = models.TextField(
         verbose_name="Descrición"
     )
+    creado_por = models.CharField(
+        verbose_name="Nombre Completo quien crea el registro", max_length=200)
 
     def __str__(self):
         return f"{self.empleado_id.nombre} {self.empleado_id.apellido_paterno} {self.empleado_id.apellido_materno}"

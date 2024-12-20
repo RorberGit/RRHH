@@ -1,6 +1,6 @@
 from django.db.models import Max
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, permissions
+from rest_framework import status, filters, generics, permissions
 from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.views import APIView
@@ -25,8 +25,9 @@ class RetrieveEmpleados(APIView):
 
     def get(self, request):
 
-        #! Parametros de consulta        
+        #! Parametros de consulta
         proyecto = request.query_params.get('proyecto')
+        is_active = request.query_params.get('is_active')
 
         #! Inicializar filtro de busqueda
         filters = Q()
@@ -35,7 +36,10 @@ class RetrieveEmpleados(APIView):
         if proyecto:
             filters &= Q(proyecto__nombre=proyecto)
 
-        #! Obtener empleados según filtro establecido        
+        if is_active:
+            filters &= Q(is_active=is_active)
+
+        #! Obtener empleados según filtro establecido
         empleados = Empleados.objects.filter(filters)
 
         #! Verificar si hay resultados
@@ -57,6 +61,7 @@ class GetOneEmpleado(APIView):
     def get(self, request):
 
         #! Parametros de consulta
+        id = request.query_params.get('id')
         nip = request.query_params.get('nip')
         ci = request.query_params.get('ci')
         proyecto = request.query_params.get('proyecto')
@@ -66,6 +71,8 @@ class GetOneEmpleado(APIView):
         filters = Q()
 
         #! Aplicar filtros si se proporcionan
+        if id:
+            filters &= Q(id=id)
         if nip:
             filters &= Q(nip=nip)
         if ci:
@@ -94,10 +101,30 @@ class GetOneEmpleado(APIView):
         return Response(serializer.data)
 
 
-class CreateEmpleados(generics.CreateAPIView):
-    queryset = Empleados.objects.all()
-    serializer_class = EmpleadosSerializers
+class CreateEmpleados(APIView):
     permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        # Obtener el último número de nip existente
+        last_nip = Empleados.objects.aggregate(
+            max_number=Max("nip"))["max_number"]
+
+        # Si no hay empleados, comenzamos desde 1
+        if last_nip is None:
+            last_nip = 0
+
+        # Asignar el nuevo nip al siguiente número máximo
+        request.data['nip'] = last_nip + 1
+
+        # Crear el serializador con los datos actualizados
+        serializer = EmpleadosSerializers(data=request.data)
+
+        # Validar y guardar el nuevo empleado
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UpdateEmpleados(generics.RetrieveUpdateAPIView):

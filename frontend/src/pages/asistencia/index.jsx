@@ -10,7 +10,7 @@ import useGetData from "../../hooks/use-GetData";
 import useRecuperarJornada from "./hooks/use-RecuperarJornada";
 import moment from "moment";
 import useReduxUsuario from "../../redux/hooks/use-ReduxUsuario";
-import { ASISTENCIA } from "../../constants";
+import { ASISTENCIA } from "@constants";
 
 export default function Asistencia() {
   //! Recuperar el id del usuario logueado

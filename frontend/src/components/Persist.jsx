@@ -3,23 +3,22 @@ import { useState, useEffect } from "react";
 
 import useStorageToken from "../hooks/use-StorageToken";
 
-import useAxiosToken from "../hooks/use-AxiosToken";
 import useReduxUsuario from "../redux/hooks/use-ReduxUsuario";
 import { useNavigate } from "react-router-dom";
+import axios from "@api/axios_interceptor.js";
 
 export default function Persist() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { list: usuarioList, create: createUsuario } = useReduxUsuario();
   const { list: tokenList } = useStorageToken();
-  const axiosToken = useAxiosToken();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!tokenList?.id) {
       navigate("/login");
     } else if (!usuarioList?.user) {
-      axiosToken
+      axios
         .get(`/users/retrieve/${tokenList.id}`)
         .then((response) => response.data)
         .then((data) =>
@@ -36,7 +35,7 @@ export default function Persist() {
         )
         .finally(() => setIsLoading(false));
     }
-  }, [axiosToken, createUsuario, navigate, tokenList, usuarioList]);
+  }, [createUsuario, navigate, tokenList, usuarioList]);
 
   return isLoading ? <p>Cargando...</p> : <Outlet />;
 }

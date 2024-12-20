@@ -26,9 +26,9 @@ class ShareAreaDptoSerializer(serializers.ModelSerializer):
 
 
 class ListFullEmpleadosSerializers(serializers.ModelSerializer):
-    #    proyecto = ShareProyectosSerializer()
- #   cargo = ShareCargosSerializer()
-  #  areadpt = ShareAreaDptoSerializer()
+    proyecto = ShareProyectosSerializer()
+    cargo = ShareCargosSerializer()
+    areadpt = ShareAreaDptoSerializer()
 
     class Meta:
         model = Empleados
@@ -43,7 +43,7 @@ class ResumenEmpleadoSerializers(serializers.ModelSerializer):
     class Meta:
         model = Empleados
         fields = ["id", "nip", "nombre", "apellido_paterno",
-                  "apellido_materno", "ci", "proyecto", "cargo", "areadpt", "foto", "mano_obra", "estado", "is_active"]
+                  "apellido_materno", "ci", "sexo", "color_piel", "proyecto", "cargo", "areadpt", "foto", "mano_obra", "estado", "is_active"]
 
 
 class ListEmpleadosSerializers(serializers.ModelSerializer):

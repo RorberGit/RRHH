@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import useAxiosToken from "./use-AxiosToken";
 import { useCallback } from "react";
+
+import axios from "@api/axios_interceptor";
 
 const useGetData = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(!!url);
 
-  const axiosToken = useAxiosToken();
 
   const refresData = useCallback(() => {
     if (url) {
       setLoading(true);
-      axiosToken(url)
+      axios
+        .get(url)
         .then((response) => {
           setData(response.data);
           setError(null);
@@ -35,7 +36,7 @@ const useGetData = (url) => {
       setError(null);
       setLoading(false);
     }
-  }, [url, axiosToken]);
+  }, [url]);
 
   useEffect(() => {
     refresData();

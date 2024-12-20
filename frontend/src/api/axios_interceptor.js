@@ -1,4 +1,4 @@
-import axios from "@api/axios";
+import axios from "@api/axios_create";
 
 import { Token } from "@services/token";
 

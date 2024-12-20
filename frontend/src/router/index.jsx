@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layaut from "./root";
-import Dashboard from "../pages/dashboard";
-import Asistencia from "../pages/asistencia";
-import Listado from "../pages/empleados/Listado";
-import FormEmpleado from "../pages/empleados/views/FormEmpleado";
-import Login from "../pages/login";
-import Persist from "../components/Persist";
+import Layaut from "./layaut";
+import Dashboard from "@pages/dashboard";
+import Asistencia from "@pages/asistencia";
+import ListarEmpleados from "@pages/empleados/list-empleados";
+import CreateEmpleado from "@pages/empleados/create-empleado";
+import DetailEmpleado from "@pages/empleados/detail-empleado";
+import Login from "@pages/login";
+import Persist from "@components/Persist";
 
 export const router = createBrowserRouter([
   {
@@ -32,11 +33,15 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: "listing",
-                element: <Listado />,
+                element: <ListarEmpleados />,
               },
               {
                 path: "create",
-                element: <FormEmpleado />,
+                element: <CreateEmpleado />,
+              },
+              {
+                path: "detail",
+                element: <DetailEmpleado />,
               },
             ],
           },

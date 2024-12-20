@@ -23,6 +23,7 @@ export default defineConfig({
       "@context": path.resolve(__dirname, "src/context"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@helpers": path.resolve(__dirname, "src/helpers"),
+      "@router": path.resolve(__dirname, "src/router"),
     },
   },
 });

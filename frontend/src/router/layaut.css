@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box; /* Asegura que el padding y el margen no afecten el tamaño total */
+}
+
+.layaut-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header-container {
+  padding: 5px;
+}
+
+.main-container {
+  display: flex;
+  flex: 1;
+}
+
+.drawer-container {
+  padding: 5px;
+}
+
+.body {
+  flex: 1;
+  padding: 5px;
+  overflow: auto;
+  max-width: 100%;
+}

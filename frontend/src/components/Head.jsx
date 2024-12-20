@@ -14,7 +14,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Head() {
   return (
-    <AppBar position="absolute">
+    <AppBar position="static">
       <Toolbar
         sx={{
           pr: "24px", // keep right padding when drawer closed
