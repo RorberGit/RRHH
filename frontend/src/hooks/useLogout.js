@@ -1,6 +1,6 @@
-import { RUTAS_API } from "../constants";
-import axios from "../api/axios";
-import { Token } from "../services";
+import { PATH_API } from "@constants";
+import axios from "@api/axios_create";
+import { Token } from "@services/token";
 import useReduxUsuario from "../redux/hooks/use-ReduxUsuario";
 
 export const useLogout = () => {
@@ -12,16 +12,9 @@ export const useLogout = () => {
     if (!token?.access_token) throw "Usuarios sin inicio de sesión";
 
     await axios
-      .post(
-        RUTAS_API.USERS.LOGOUT,
-        {
-          refresh_token: token.refresh_token,
-        },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      .post(PATH_API.USERS.LOGOUT, {
+        refresh_token: token.refresh_token,
+      })
       .then(() => {
         Token.removeToken();
 

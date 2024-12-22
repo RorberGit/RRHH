@@ -1,12 +1,12 @@
 import useEmpleadoContext from "@pages/empleados/create-empleado/context/use-EmpleadoContext";
 import useFetching from "@hooks/use-Fetching";
 import AutoCompletar from "@components/mui/AutoCompletar";
-import { RUTAS_API } from "@constants";
+import { PATH_API } from "@constants";
 
 export default function Afiliacion() {
   const { control } = useEmpleadoContext();
 
-  const { data, loading } = useFetching(RUTAS_API.integracion.AFILIACION);
+  const { data, loading } = useFetching(PATH_API.integracion.AFILIACION);
 
   if (loading) return <h3>Cargando...</h3>;
 

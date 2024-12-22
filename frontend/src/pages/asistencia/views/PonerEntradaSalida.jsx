@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-import { EMPLEADO } from "@constants";
+import { PATH_API } from "@constants";
 
 export default function PonerEntradaSalida({
   setEmployee,
@@ -55,7 +55,7 @@ export default function PonerEntradaSalida({
       debounce(
         (nip) =>
           setSearch(
-            nip ? `${EMPLEADO.getOne}?nip=${nip}&proyecto=${proyecto}` : null
+            nip ? `${PATH_API.EMPLOYEE.RETRIEVE}?nip=${nip}&proyecto=${proyecto}` : null
           ),
         500
       ),

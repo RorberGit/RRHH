@@ -1,13 +1,19 @@
-from django.urls import path
+from django.urls import path, include
 
-from . import views
+from empleados.api.views.empleado_listing import ListingView
+from empleados.api.views.empleado_retrieve import RetrieveView
+from empleados.api.views.empleado_create import CreateView
+from empleados.api.views.empleado_update import UpdateView
+from empleados.api.views.empledo_delete import DeleteView
 
 urlpatterns = [
-    path("listing/", views.ListEmpleados.as_view(), name="List"),
-    path("retrieve/", views.RetrieveEmpleados.as_view(), name="Retrieve"),
-    path("getone/",views.GetOneEmpleado.as_view(), name="Optener un empleado"),
-    path("create/", views.CreateEmpleados.as_view(), name="Create"),
-    path("update/<pk>/", views.UpdateEmpleados.as_view(), name="Update"),
-    path("delete/<pk>", views.DeleteEmpleados.as_view(), name="Delete"),    
-    path("max/", views.MaxNIP.as_view(), name="MAX"),    
+    path("listing/", ListingView.as_view(),
+         name="Lista completa de empleados"),
+    path("retrieve/", RetrieveView.as_view(), name="Recuperar un empleado"),
+    path("create/", CreateView.as_view(), name="Crear nuevo empleado"),
+    path("update/", UpdateView.as_view(),
+         name="Actualizar registro de empleado"),
+    path("delete/", DeleteView.as_view(), name="Eliminar un empleado"),
+    path("historic/", include("empleados.api.urls.historico"),
+         name="Historico de Empledo"),
 ]

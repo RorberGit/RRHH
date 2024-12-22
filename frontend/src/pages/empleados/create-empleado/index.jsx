@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { crearRegistro } from "./helpers/crearRegistro";
-import { EMPLEADO } from "@constants";
+import { PATH_API } from "@constants/rutas.api";
 import { defaultEmpleado } from "./models/defaultEmpleado";
 import { toast } from "sonner";
 import { useMemo } from "react";
@@ -57,7 +57,7 @@ export default function CreateEmpleado() {
 
     console.info("renderizado :>", row);
 
-    const create = await axios.post(EMPLEADO.CREATE, row);
+    const create = await axios.post(PATH_API.EMPLOYEE.CREATE, row);
 
     console.log("create :>> ", create);
 
@@ -65,12 +65,6 @@ export default function CreateEmpleado() {
 
     router.push("/employee/listing");
   };
-
-  //Mostrar fecha actual
-  
-
-  
-  
 
   return (
     <>

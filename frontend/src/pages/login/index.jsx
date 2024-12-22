@@ -11,15 +11,15 @@ import {
 } from "@mui/material";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { auth } from "../../services/auth";
+import { auth } from "@services/auth";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useLogout } from "../../hooks/useLogout";
+import { useLogout } from "@hooks/useLogout";
 
-import BBI from "./assets/img/bbi.jpg";
-import UCM from "./assets/img/ucm.jpg";
-import useStorageToken from "../../hooks/use-StorageToken";
+import BBI from "@assets/img/bbi.jpg";
+import UCM from "@assets/img/ucm.jpg";
+import useStorageToken from "@hooks/use-StorageToken";
 
 const defaultTheme = createTheme();
 

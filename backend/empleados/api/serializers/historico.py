@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from empleados.models.historico import Historico_Empleados
+from empleados.models.historico import HistoricoEmpleados
 
 
 class HistoricoSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Historico_Empleados
+        model = HistoricoEmpleados
         fields = "__all__"

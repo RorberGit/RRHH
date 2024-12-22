@@ -4,8 +4,8 @@ from common.models import CommonFields
 from empleados.models.empleados import Empleados
 
 
-class Historico_Empleados(CommonFields):
-    empleado_id = models.ForeignKey(
+class HistoricoEmpleados(CommonFields):
+    IdEmpleado = models.ForeignKey(
         Empleados,
         on_delete=models.CASCADE,
         verbose_name="Relación con empledos",

@@ -6,7 +6,7 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.exceptions import NotFound, NotAcceptable
 
-from empleados.api.share_serializers import ListFullEmpleadosSerializers, ResumenEmpleadoSerializers
+from empleados.api.serializers.share_serializers import ListFullEmpleadosSerializers, ResumenEmpleadoSerializers
 
 from .models.empleados import Empleados
 from .serializers import EmpleadosSerializers

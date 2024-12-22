@@ -1,4 +1,18 @@
-export const RUTAS_API = {
+export const PATH_API = {
+  EMPLOYEE: {
+    LISTING: "employee/listing",
+    CREATE: "employee/create",
+    RETRIEVE: "employee/retrieve",
+    UPDATE: "employee/update",
+    DELETE: "employee/delete",
+    HISTORIC: {
+      LISTING: "employee/historic/listing",
+      CREATE: "employee/historic/create",
+      RETRIEVE: "employee/historic/retrieve",
+      UPDATE: "employee/historic/update",
+      DELETE: "employee/historic/delete",
+    },
+  },
   USERS: {
     LOGIN: "users/login/",
     LOGOUT: "users/logout/",
@@ -25,15 +39,6 @@ export const OTHER = {
   TURNO: "/other/turn/",
   PASE: "/other/pass/",
   ALBERGADO: "other/ajtvjt/",
-};
-
-export const EMPLEADO = {
-  LISTING: "employee/listing/",
-  CREATE: "employee/create/",
-  getOne: "employee/getone",
-  getFull: "",
-  RETRIEVE: "employee/retrieve",
-  MAX: "employee/max/",
 };
 
 export const ASISTENCIA = {

@@ -1,6 +1,6 @@
 import useQueryParams from "@hooks/use-QueryParams";
 import useFetching from "@hooks/use-Fetching.js";
-import { EMPLEADO } from "@constants/rutas.api";
+import { PATH_API } from "@constants/rutas.api";
 import Titulo from "../components/titulo";
 import { Paper } from "@mui/material";
 
@@ -10,7 +10,9 @@ import DetalleEmpleado from "./components/detalle-empleado";
 export default function DetailEmpleado() {
   const { id } = useQueryParams();
 
-  const { data, loading } = useFetching(`${EMPLEADO.getOne}?id=${id}`);
+  const { data, loading } = useFetching(
+    `${PATH_API.EMPLOYEE.RETRIEVE}?id=${id}`
+  );
 
   if (loading) return <h2>Cargango...</h2>;
 

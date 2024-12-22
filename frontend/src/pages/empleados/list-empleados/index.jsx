@@ -1,7 +1,7 @@
 import { Paper } from "@mui/material";
 import Tabla from "@components/mui/Tabla";
 import useFetching from "@hooks/use-Fetching.js";
-import { EMPLEADO } from "@constants/rutas.api.js";
+import { PATH_API } from "@constants/rutas.api.js";
 import { columns } from "./models/columnas";
 import Titulo from "@pages/empleados/components/titulo";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function ListarEmpleados() {
   const navigate = useNavigate();
 
   const { data, error, loading } = useFetching(
-    `${EMPLEADO.RETRIEVE}?is_active=True`
+    `${PATH_API.EMPLOYEE.LISTING}?is_active=True`
   );
 
   if (error) {

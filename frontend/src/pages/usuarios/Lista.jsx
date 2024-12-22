@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { RUTAS_API } from "../../constants";
+import { PATH_API } from "../../constants";
 import { useFetch } from "../../hooks/useFetch";
 import { Tabla } from "../../components/mui";
 import { useCallback, useMemo } from "react";
@@ -17,7 +17,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { useRouter } from "@hooks/use-router";
 
 export default function Lista() {
-  const { data, error, loading } = useFetch(RUTAS_API.USERS.LISTING);
+  const { data, error, loading } = useFetch(PATH_API.USERS.LISTING);
   const router = useRouter();
 
   const deleteUser = useCallback(

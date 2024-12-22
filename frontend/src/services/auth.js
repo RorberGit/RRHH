@@ -1,10 +1,10 @@
 //import axios from "../api/axios";
 import axios from "@api/axios_create";
-import { RUTAS_API } from "@constants";
+import { PATH_API } from "@constants";
 
 export const Login = async (credenciales) => {
   return await axios
-    .post(RUTAS_API.USERS.LOGIN, credenciales)
+    .post(PATH_API.USERS.LOGIN, credenciales)
     .then((response) => response.data)
     .catch((error) => {
       console.error("error :> ", error);

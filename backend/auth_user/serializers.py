@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from empleados.api.share_serializers import ListFullEmpleadosSerializers, ResumenEmpleadoSerializers
+from empleados.api.serializers.share_serializers import ListFullEmpleadosSerializers, ResumenEmpleadoSerializers
 from .models import Usuario as User
 
 
