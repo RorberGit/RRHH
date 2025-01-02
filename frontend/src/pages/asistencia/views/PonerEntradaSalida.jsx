@@ -2,13 +2,14 @@ import { TextField } from "@mui/material";
 import debounce from "just-debounce-it";
 import { useEffect, useCallback } from "react";
 import axios from "@api/axios_interceptor";
-import useFetching from "@hooks/use-Fetching";
+import {useFetching} from "@hooks/use-Fetching";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { PATH_API } from "@constants";
+import getFullName from "@helpers/getFullName";
 
 export default function PonerEntradaSalida({
   setEmployee,
@@ -31,7 +32,7 @@ export default function PonerEntradaSalida({
         foto: data?.foto,
         nip: data?.nip,
         ci: data?.ci,
-        nombre_completo: `${data?.nombre} ${data?.apellido_paterno} ${data?.apellido_materno}`,
+        nombre_completo: getFullName(data),
         area: data?.areadpt.nombre,
         cargo: data?.cargo.nombre,
         proyecto: data?.proyecto.nombre,
@@ -55,7 +56,9 @@ export default function PonerEntradaSalida({
       debounce(
         (nip) =>
           setSearch(
-            nip ? `${PATH_API.EMPLOYEE.RETRIEVE}?nip=${nip}&proyecto=${proyecto}` : null
+            nip
+              ? `${PATH_API.EMPLOYEE.RETRIEVE}?nip=${nip}&proyecto=${proyecto}`
+              : null
           ),
         500
       ),

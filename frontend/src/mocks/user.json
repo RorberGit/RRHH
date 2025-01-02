@@ -1,0 +1,37 @@
+{
+    "id": 2,
+    "empleados": {
+      "id": "834e08e5-bf7b-4f74-a2a2-e8ca2e0e6c73",
+      "nip": 1,
+      "nombre": "Rorber",
+      "apellido_paterno": "Rodríguez",
+      "apellido_materno": "Arcaya",
+      "ci": "78080324903",
+      "sexo": "M",
+      "color_piel": "B",
+      "proyecto": {
+        "id": "348fe3f8-1a4f-4260-8552-525d171fbe90",
+        "nombre": "Baracutey 61A"
+      },
+      "cargo": {
+        "id": "af539fcd-0521-47cb-87a3-4e5a3a8fed1d",
+        "nombre": "Informático"
+      },
+      "areadpt": {
+        "id": "471b6623-76e6-454b-8891-3a506e6d6c8c",
+        "nombre": "Informática"
+      },
+      "foto": "",
+      "mano_obra": "MOI",
+      "estado": "ENTRADA",
+      "is_active": true
+    },
+    "last_login": "2024-12-22T18:53:42.970256Z",
+    "username": "rorber",
+    "email": "rorber@ensenaintl.local",
+    "is_superuser": false,
+    "is_staff": true,
+    "is_active": true,
+    "is_admin": false,
+    "date_joined": "2024-11-27T15:14:06.748149Z"
+  }

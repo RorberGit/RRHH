@@ -1,14 +1,15 @@
+import { Suspense } from "react";
+import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
+
 import Layaut from "./layaut";
-import Dashboard from "@pages/dashboard";
-import Asistencia from "@pages/asistencia";
-import ListarEmpleados from "@pages/empleados/list-empleados";
-import CreateEmpleado from "@pages/empleados/create-empleado";
-import DetailEmpleado from "@pages/empleados/detail-empleado";
 import Login from "@pages/login";
 import Persist from "@components/Persist";
 
-export const router = createBrowserRouter([
+import { Asistencia, Dashboard } from "./lazy";
+import { employeeRoutes } from "./employeeRoutes";
+
+const router = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
@@ -30,23 +31,20 @@ export const router = createBrowserRouter([
           },
           {
             path: "employee",
-            children: [
-              {
-                path: "listing",
-                element: <ListarEmpleados />,
-              },
-              {
-                path: "create",
-                element: <CreateEmpleado />,
-              },
-              {
-                path: "detail",
-                element: <DetailEmpleado />,
-              },
-            ],
+            children: employeeRoutes,
           },
         ],
       },
     ],
   },
 ]);
+
+const AppRoutes = () => {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
+};
+
+export default AppRoutes;

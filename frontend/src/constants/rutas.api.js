@@ -1,13 +1,13 @@
 export const PATH_API = {
   EMPLOYEE: {
     LISTING: "employee/listing",
-    CREATE: "employee/create",
+    CREATE: "employee/create/",
     RETRIEVE: "employee/retrieve",
     UPDATE: "employee/update",
     DELETE: "employee/delete",
     HISTORIC: {
       LISTING: "employee/historic/listing",
-      CREATE: "employee/historic/create",
+      CREATE: "employee/historic/create/",
       RETRIEVE: "employee/historic/retrieve",
       UPDATE: "employee/historic/update",
       DELETE: "employee/historic/delete",

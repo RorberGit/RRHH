@@ -17,22 +17,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLogout } from "@hooks/useLogout";
 
-import BBI from "@assets/img/bbi.jpg";
-import UCM from "@assets/img/ucm.jpg";
-import useStorageToken from "@hooks/use-StorageToken";
+import BBI from "./assets/img/bbi.jpg";
+import UCM from "./assets/img/ucm.jpg";
+import { STORAGE } from "../../services/token";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
   const logout = useLogout();
-  //! Hooks control del localstore
-  const token = useStorageToken();
 
-  //Limpiar los valores de la session en el inicio de sesion
+  //! Limpiar los valores de la session en el inicio de sesion
   useEffect(() => {
     const cerrarSesion = async () => {
       try {
-        //Llamo a la api para cerrar la session
+        //! Llamo a la api para cerrar la session
         await logout();
       } catch (error) {
         console.log(error);
@@ -46,6 +44,9 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+
+  console.log("location => ", from);
+  console.log("list => ", STORAGE.list());
 
   const [errMsg, setErrMsg] = useState("");
 
@@ -64,7 +65,7 @@ export default function Login() {
         password: data.get("password"),
       });
 
-      token.setToken({
+      STORAGE.setToken({
         id: response.id,
         access_token: response.access_token,
         refresh_token: response.refresh_token,

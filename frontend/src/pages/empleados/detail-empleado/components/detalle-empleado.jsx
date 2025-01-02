@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-import getFullName from "@pages/empleados/helpers/getFullName";
+import getFullName from "@helpers/getFullName";
 import resumen from "@pages/empleados/mocks/resumen.json";
 
 import styles from "./detalle-empleado.module.css";
@@ -14,7 +14,7 @@ const renderAtributo = (key = "", value = "") => {
   );
 };
 
-export default function DetalleEmpleado({ data }) {
+export default function PropiedadesEmpleado({ data }) {
   console.log("data :>> ", data);
   return (
     <div className={styles.container_detail}>
@@ -58,6 +58,6 @@ export default function DetalleEmpleado({ data }) {
   );
 }
 
-DetalleEmpleado.propTypes = {
+PropiedadesEmpleado.propTypes = {
   data: PropTypes.object,
 };

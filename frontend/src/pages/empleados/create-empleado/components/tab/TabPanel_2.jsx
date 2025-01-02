@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-import useFetching from "@hooks/use-Fetching";
+import {useFetching} from "@hooks/use-Fetching";
 import {
   renderACompletar,
   renderCampoTexto,

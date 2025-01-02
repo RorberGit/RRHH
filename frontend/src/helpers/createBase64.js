@@ -10,7 +10,6 @@ const createBase64 = (file) => {
     };
 
     data.onerror = (error) => {
-      console.error("Error base64", error);
       reject(error);
     };
   });

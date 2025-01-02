@@ -15,7 +15,11 @@ import { ProviderEmpleado } from "./context/empleado-context";
 import Tab from "./components/tab";
 import Titulo from "@pages/empleados/components/titulo";
 
+import { useGetUser } from "@hooks/use-GetUser";
+
 export default function CreateEmpleado() {
+  const { user } = useGetUser();
+
   const { resolver } = useValidaForm();
 
   const router = useRouter();
@@ -51,18 +55,28 @@ export default function CreateEmpleado() {
 
   //! Funsion submit del formulario
   const onSubmit = async (data) => {
-    console.log("data :>", data);
-
     const row = crearRegistro(data);
-
-    console.info("renderizado :>", row);
 
     const create = await axios.post(PATH_API.EMPLOYEE.CREATE, row);
 
-    console.log("create :>> ", create);
+    //! Si empleado insertado con exicto
+    if (create.status === 201) {
+      //! Mostrar un mensaje de exicto de creación del nuevo empleado
+      toast.success("Empleado creado con exito");
 
-    if (create.status === 201) toast.success("Empleado creado con exito");
+      //! Crear Historico
+      const historico = {
+        estado: "Contratado",
+        id_empleado: create?.data.id,
+        descripcion: "Nuevo Contrato",
+        creado_por: user?.nombre_completo,
+      };
 
+      //! Salvar historico del empleado
+      axios.post(PATH_API.EMPLOYEE.HISTORIC.CREATE, historico);
+    }
+
+    //! Si todo ha ido bien
     router.push("/employee/listing");
   };
 

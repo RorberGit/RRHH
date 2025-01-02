@@ -1,24 +1,27 @@
 import { PATH_API } from "@constants";
 import axios from "@api/axios_create";
-import { Token } from "@services/token";
-import useReduxUsuario from "../redux/hooks/use-ReduxUsuario";
+import { STORAGE } from "../services/token";
+import { mutate } from "swr";
 
 export const useLogout = () => {
-  const usuario = useReduxUsuario();
-
+  //! Función de limiesa del inicio de session del usuario
   const logout = async () => {
-    const token = Token.getToken();
+    //! Si existe el token
+    if (STORAGE.list()) {
+      //! Eliminar el token de usuario
+      STORAGE.delToken();
 
-    if (!token?.access_token) throw "Usuarios sin inicio de sesión";
+      //! Limpiar la cache del usuario
+      mutate(null);
+    }
 
     await axios
       .post(PATH_API.USERS.LOGOUT, {
-        refresh_token: token.refresh_token,
+        refresh_token: STORAGE.getRefreshToken(),
       })
-      .then(() => {
-        Token.removeToken();
-
-        usuario.reset();
+      .then((error) => {
+        console.log("Error en logout => ", error);
+        //Token.removeToken();
       })
       .catch((error) => {
         console.error("error:>", error);

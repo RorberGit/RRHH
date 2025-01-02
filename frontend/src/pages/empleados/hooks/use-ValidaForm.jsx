@@ -2,13 +2,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import axios from "@api/axios_interceptor";
+import { PATH_API } from "../../../constants";
 
 export default function useFormValidation() {
   const validateCI = async (ci) => {
     if (!ci) return true;
 
     try {
-      const response = await axios.get(`employee/getone?ci=${ci}`);
+      const response = await axios.get(
+        `${PATH_API.EMPLOYEE.RETRIEVE}?ci=${ci}`
+      );
       return response.status !== 200;
     } catch {
       return true;

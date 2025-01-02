@@ -1,0 +1,11 @@
+{
+  "id": 2,
+  "username": "rorber",
+  "is_admin": false,
+  "is_active": true,
+  "last_login": "2024-12-22T18:53:42.970256Z",
+  "empleado": "Rorber Rodríguez Arcaya",
+  "proyecto": "Baracutey 61A",
+  "cargo": "Informático",
+  "area": "Informática"
+}

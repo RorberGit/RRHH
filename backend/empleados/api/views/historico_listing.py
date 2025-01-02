@@ -14,14 +14,14 @@ class ListingView(APIView):
 
     def get(self, request):
         #! Obtener el empleado por empleado_id
-        IdEmpleado = request.query_params.get('IdEmpleado')
+        id_empleado = request.query_params.get('id')
 
         #! Iniciar filtro de busqueda
         filters = Q()
 
         #! Aplicar filtros si existe
-        if IdEmpleado:
-            filters &= Q(IdEmpleado=IdEmpleado)
+        if id_empleado:
+            filters &= Q(id_empleado=id_empleado)
 
         #! Obtener empleados segun filtro establecido
         #! ordenar por fecha de creacion desc

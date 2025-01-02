@@ -6,7 +6,11 @@ export const EmpleadoContext = createContext();
 
 // Proveedor del contexto
 export const ProviderEmpleado = ({ children, value }) => {
-  return <EmpleadoContext.Provider value={value}>{children}</EmpleadoContext.Provider>;
+  return (
+    <EmpleadoContext.Provider value={value}>
+      {children}
+    </EmpleadoContext.Provider>
+  );
 };
 
 ProviderEmpleado.propTypes = {

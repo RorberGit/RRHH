@@ -1,6 +1,6 @@
 import { Visibility } from "@mui/icons-material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import getFullName from "@pages/empleados/helpers/getFullName";
+import getFullName from "@helpers/getFullName";
 
 export const columns = (navigate) => [
   {

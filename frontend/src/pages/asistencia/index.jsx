@@ -6,15 +6,15 @@ import PonerEntradaSalida from "./views/PonerEntradaSalida";
 import Empleado from "./views/Empleado";
 import Registro from "./views/Registro";
 import { useState } from "react";
-import useGetData from "../../hooks/use-GetData";
+import useGetData from "@hooks/use-GetData";
 import useRecuperarJornada from "./hooks/use-RecuperarJornada";
 import moment from "moment";
-import useReduxUsuario from "../../redux/hooks/use-ReduxUsuario";
+import { useGetUser } from "@hooks/use-GetUser.js";
 import { ASISTENCIA } from "@constants";
 
 export default function Asistencia() {
   //! Recuperar el id del usuario logueado
-  const { proyecto } = useReduxUsuario().list.user;
+  const { user } = useGetUser();
 
   //! Mantiene vinculado el estado de empleados entre componentes ponerEntradaSalida y empleado
   const [employee, setEmployee] = useState();
@@ -30,8 +30,11 @@ export default function Asistencia() {
       data y loading se pasan a component registro
   */
   const fecha_entrada = moment().format("yyyy-MM-DD");
+
   const { data, error, loading, refresData } = useGetData(
-    `${ASISTENCIA.ENTRADA_SALIDA}?fecha_entrada=${fecha_entrada}&proyecto=${proyecto}`
+    `${ASISTENCIA.ENTRADA_SALIDA}?fecha_entrada=${fecha_entrada}&proyecto=${
+      user?.proyecto || ""
+    }`
   );
 
   return (
@@ -48,7 +51,7 @@ export default function Asistencia() {
             <PonerEntradaSalida
               setEmployee={setEmployee}
               refresData={refresData}
-              proyecto={proyecto}
+              proyecto={user?.proyecto}
             />
           </Paper>
         </Grid>

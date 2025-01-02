@@ -6,6 +6,7 @@ const fetching = async (url) => {
 
     return response.data;
   } catch (error) {
+    console.log("ERROR Fetching", error);
     if (error.response) {
       switch (error.response.status) {
         case 404: {

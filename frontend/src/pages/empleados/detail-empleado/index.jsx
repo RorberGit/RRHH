@@ -1,28 +1,55 @@
 import useQueryParams from "@hooks/use-QueryParams";
-import useFetching from "@hooks/use-Fetching.js";
-import { PATH_API } from "@constants/rutas.api";
 import Titulo from "../components/titulo";
 import { Paper } from "@mui/material";
 
 import Historico from "../components/historico";
-import DetalleEmpleado from "./components/detalle-empleado";
+import { PropiedadesEmpleado } from "./components/propiedades-empleado";
+import { Botones } from "./components/botones";
+import { DetalleProvider } from "./contexts/detail-context";
+import { Desactivar } from "./components/desactivar";
+import { useState } from "react";
+import { Activar } from "./components/activar";
 
 export default function DetailEmpleado() {
+  //! Estado que controla el renderizado de los componentes
+  const [refresh, setRefresh] = useState(false);
+
+  //! Controla si se muestran o no los botones de activar y desativar
+  const [isActive, setIsActive] = useState(true);
+
+  const [action, setAction] = useState(null);
+
+  //! Capturar los query desde la url
   const { id } = useQueryParams();
-
-  const { data, loading } = useFetching(
-    `${PATH_API.EMPLOYEE.RETRIEVE}?id=${id}`
-  );
-
-  if (loading) return <h2>Cargango...</h2>;
 
   return (
     <>
-      <Paper sx={{ padding: 2 }}>
-        <Titulo title="Detalles del empleado" />
-        <DetalleEmpleado data={data} />
-      </Paper>
-      <Historico id={id} />
+      <DetalleProvider
+        value={{ id, isActive, setIsActive, setAction, refresh, setRefresh }}
+      >
+        <Paper sx={{ padding: 2 }}>
+          <Titulo title="Detalles del empleado" />
+
+          {
+            //! Botones de acción
+            !action && <Botones />
+          }
+
+          {
+            //! Activar empleado
+            action === "activate" && <Activar />
+          }
+
+          {
+            //! Desactivar empleado
+            action === "deactivate" && <Desactivar />
+          }
+
+          <PropiedadesEmpleado />
+        </Paper>
+
+        <Historico />
+      </DetalleProvider>
     </>
   );
 }

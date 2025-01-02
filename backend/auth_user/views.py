@@ -50,7 +50,7 @@ class LoginUser(APIView):
             raise AuthenticationFailed(f"Error al buscar usuario: {str(e)}") from e
 
         if check_user is None:
-            raise AuthenticationFailed("Usuario no existe.")
+            raise AuthenticationFailed("Usuario no registrado.")
 
         if not check_user.check_password(password):
             raise AuthenticationFailed("Contraseña incorrecta.")
@@ -109,5 +109,5 @@ class ListUser(APIView):
 class RetrieveUser(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = ViewUserSerializers
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.OrderingFilter]

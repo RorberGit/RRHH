@@ -1,5 +1,5 @@
 import useEmpleadoContext from "@pages/empleados/create-empleado/context/use-EmpleadoContext";
-import useFetching from "@hooks/use-Fetching";
+import {useFetching} from "@hooks/use-Fetching";
 import AutoCompletar from "@components/mui/AutoCompletar";
 import { OTHER } from "@constants";
 

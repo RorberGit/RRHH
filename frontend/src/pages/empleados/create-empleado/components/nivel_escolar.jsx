@@ -1,4 +1,4 @@
-import useFetching from "@hooks/use-Fetching";
+import {useFetching} from "@hooks/use-Fetching";
 import { OTHER } from "@constants";
 import AutoCompletar from "@components/mui/AutoCompletar";
 import useEmpleadoContext from "@pages/empleados/create-empleado/context/use-EmpleadoContext";

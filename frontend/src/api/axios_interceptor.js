@@ -1,17 +1,16 @@
 import axios from "@api/axios_create";
 
-import { Token } from "@services/token";
+import { STORAGE } from "../services/token";
 
 //Interceptor para las solicitudes
 axios.interceptors.request.use(
   (config) => {
-    //Obteniendo el token
-    const token = Token.getToken();
-
-    //Si existe el access token
-    if (token?.access_token) {
-      config.headers["Authorization"] = `Bearer ${token.access_token}`;
+    //! Si existe el access token
+    if (STORAGE.getAccessToken()) {
+      config.headers["Authorization"] = `Bearer ${STORAGE.getAccessToken()}`;
     }
+
+    console.info("config :>> ", config);
 
     return config;
   },
@@ -29,7 +28,8 @@ axios.interceptors.response.use(
     console.error("Error AXIOS response :>", error);
 
     if (error?.response?.status === 401) {
-      Token.removeToken();
+      STORAGE.delToken();
+      //Token.removeToken();
       window.location.href = "/login";
     }
 

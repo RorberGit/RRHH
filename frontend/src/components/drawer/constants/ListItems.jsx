@@ -26,8 +26,13 @@ export const ListItems = [
     children: [
       {
         icon: <Person />,
-        title: "Listar",
-        path: "employee/listing",
+        title: "Listar activos",
+        path: "employee/listing/?active=True",
+      },
+      {
+        icon: <Person />,
+        title: "Listar inactivos",
+        path: "employee/listing/?active=False",
       },
       {
         icon: <PersonAdd />,

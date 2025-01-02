@@ -1,6 +1,7 @@
 import { Badge, IconButton, Toolbar, Typography, styled } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useGetUser } from "../hooks/use-GetUser";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -13,6 +14,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Head() {
+  const { user } = useGetUser();
+
   return (
     <AppBar position="static">
       <Toolbar
@@ -29,6 +32,7 @@ export default function Head() {
         >
           Dashboard
         </Typography>
+        {user?.nombre_completo}
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />
